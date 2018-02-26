@@ -1,0 +1,172 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco-android'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        multiDexEnabled = true
+        testInstrumentationRunner "com.lekaha.simpletube.ui.test.TestRunner"
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        dexInProcess = false
+        javaMaxHeapSize "4g"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+    }
+
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}
+
+dependencies {
+    def mobileUiDependencies = rootProject.ext.mobileUiDependencies
+    def mobileUiTestDependencies = rootProject.ext.mobileUiTestDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+
+    implementation project(':presentation')
+    implementation project(':data')
+    implementation project(':cache')
+    implementation project(':remote')
+
+    implementation mobileUiDependencies.javaxAnnotation
+
+    implementation mobileUiDependencies.kotlin
+    implementation mobileUiDependencies.javaxInject
+    implementation mobileUiDependencies.rxKotlin
+    implementation mobileUiDependencies.androidAnnotations
+    implementation mobileUiDependencies.androidSupportV4
+    implementation mobileUiDependencies.androidSupportV13
+    implementation mobileUiDependencies.appCompatV7
+    implementation mobileUiDependencies.supportRecyclerView
+    implementation mobileUiDependencies.supportDesign
+    implementation mobileUiDependencies.timber
+    implementation mobileUiDependencies.rxAndroid
+    implementation mobileUiDependencies.glide
+    implementation mobileUiDependencies.dagger
+    implementation mobileUiDependencies.daggerSupport
+
+    releaseImplementation developmentDependencies.chuckNoOp
+    debugImplementation developmentDependencies.chuck
+    implementation developmentDependencies.stetho
+    implementation developmentDependencies.stethoOkHttp
+    releaseImplementation developmentDependencies.leakcanaryNoOp
+    debugImplementation developmentDependencies.leakcanary
+
+    testImplementation mobileUiTestDependencies.kotlinJUnit
+
+    implementation mobileUiDependencies.archLifecycleRuntime
+    implementation mobileUiDependencies.archLifecycleExtensions
+    kapt mobileUiDependencies.archLifecycleCompiler
+
+    kapt mobileUiDependencies.daggerCompiler
+    kapt mobileUiDependencies.daggerProcessor
+    compileOnly mobileUiDependencies.glassfishAnnotation
+
+    api mobileUiDependencies.archLifecycleRuntime
+    api mobileUiDependencies.archLifecycleExtensions
+    api mobileUiDependencies.archLifecycleReactiveStreams
+    kapt mobileUiDependencies.archLifecycleCompiler
+    kaptTest mobileUiDependencies.archLifecycleCompiler
+
+    // Auto-Value
+    kapt developmentDependencies.autoValue
+    compileOnly developmentDependencies.autoValueAnnotation
+    kaptTest developmentDependencies.autoValue
+    kaptAndroidTest developmentDependencies.autoValue
+
+    // AutoValue Type Adapter
+    kapt developmentDependencies.autoValueGson
+    kaptTest developmentDependencies.autoValueGson
+    kaptAndroidTest developmentDependencies.autoValueGson
+
+    implementation developmentDependencies.gson
+
+    // KTX
+    implementation mobileUiDependencies.ktx
+
+    // Instrumentation test dependencies
+    androidTestImplementation mobileUiTestDependencies.junit
+    androidTestImplementation mobileUiTestDependencies.mockito
+    androidTestImplementation mobileUiTestDependencies.mockitoAndroid
+    androidTestImplementation (mobileUiTestDependencies.espressoCore) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation (mobileUiTestDependencies.androidRunner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation (mobileUiTestDependencies.androidRules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation (mobileUiTestDependencies.espressoIntents) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(mobileUiTestDependencies.espressoContrib) {
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
+
+    kaptTest mobileUiDependencies.daggerCompiler
+    kaptAndroidTest mobileUiDependencies.daggerCompiler
+}
+
+// Ensure the no-op dependency is always used in JVM tests.
+configurations.all { config ->
+    if (config.name.contains('UnitTest') || config.name.contains('AndroidTest')) {
+        config.resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.squareup.leakcanary'
+                    && details.requested.name == 'leakcanary-android') {
+                details.useTarget(
+                        group: details.requested.group,
+                        name: 'leakcanary-android-no-op',
+                        version: details.requested.version)
+            }
+        }
+    }
+}
