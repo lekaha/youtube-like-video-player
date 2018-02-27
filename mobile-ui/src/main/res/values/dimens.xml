@@ -10,4 +10,7 @@
     <dimen name="text_smaller_body">12sp</dimen>
     <dimen name="text_tiny_body">10sp</dimen>
 
+    <dimen name="browse_thumbnail_width">120dp</dimen>
+    <dimen name="browse_thumbnail_height">80dp</dimen>
+
 </resources>

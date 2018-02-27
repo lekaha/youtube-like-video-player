@@ -1,7 +1,6 @@
 package com.lekaha.simpletube.remote
 
 import com.lekaha.simpletube.remote.model.SimpletubeModel
-import com.lekaha.simpletube.remote.model.VideoListResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 

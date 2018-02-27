@@ -26,7 +26,6 @@ class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         Glide.with(itemView.context)
             .load(simpletube.avatar)
-            .apply(RequestOptions.circleCropTransform())
             .into(avatarImage)
     }
 
