@@ -2,7 +2,7 @@ package com.lekaha.simpletube.ui.injection.module
 
 import android.content.Context
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.lekaha.simpletube.remote.BufferooServiceFactory
+import com.lekaha.simpletube.remote.SimpletubeServiceFactory
 import com.lekaha.simpletube.ui.BuildConfig
 import com.lekaha.simpletube.ui.injection.qualifier.ApplicationContext
 import com.lekaha.simpletube.ui.injection.scopes.PerApplication
@@ -23,13 +23,13 @@ open class NetModule {
 
     @Provides
     @PerApplication
-    internal fun provideBufferooService(
+    internal fun provideSimpletubeService(
         @Named(BASE_URL) baseUrl: String,
         @Named(CONNECT_TIMEOUT) connectTimeout: Long,
         @Named(READ_TIMEOUT) readTimeout: Long,
         chuckInterceptor: ChuckInterceptor,
         stethoInterceptor: StethoInterceptor
-    ) = BufferooServiceFactory.makeService(
+    ) = SimpletubeServiceFactory.makeService(
         BuildConfig.DEBUG,
         baseUrl,
         connectTimeout,
@@ -46,7 +46,7 @@ open class NetModule {
 
     @Provides
     @Named(BASE_URL)
-    internal fun provideBaseUrl() = "https://joe-birch-dsdb.squarespace.com/s/"
+    internal fun provideBaseUrl() = "${BuildConfig.BASE_URL}"
 
     @Provides
     @Named(CONNECT_TIMEOUT)

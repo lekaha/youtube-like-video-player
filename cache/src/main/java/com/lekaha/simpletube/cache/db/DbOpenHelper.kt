@@ -13,7 +13,7 @@ class DbOpenHelper constructor(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        val DATABASE_NAME = "buffer-clean-arch-boilerplate.db"
+        val DATABASE_NAME = "simpletube.db"
         val DATABASE_VERSION = 1
     }
 
@@ -29,7 +29,7 @@ class DbOpenHelper constructor(context: Context) :
     override fun onCreate(db: SQLiteDatabase) {
         db.beginTransaction()
         try {
-            db.execSQL(Db.BufferooTable.CREATE)
+            db.execSQL(Db.SimpletubeTable.CREATE)
             db.setTransactionSuccessful()
         } finally {
             db.endTransaction()

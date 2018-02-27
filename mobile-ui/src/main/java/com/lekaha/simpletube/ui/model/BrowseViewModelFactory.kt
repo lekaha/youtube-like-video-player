@@ -2,9 +2,9 @@ package com.lekaha.simpletube.ui.model
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.lekaha.simpletube.presentation.browse.BrowseBufferoosContract
+import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesContract
 
-class BrowseViewModelFactory(val presenter: BrowseBufferoosContract.Presenter)
+class BrowseViewModelFactory(val presenter: BrowseSimpletubesContract.Presenter)
     : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

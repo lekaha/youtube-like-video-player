@@ -2,69 +2,63 @@ package com.lekaha.simpletube.ui.injection.module
 
 import android.app.Application
 import android.content.Context
+import com.lekaha.simpletube.cache.PreferencesHelper
+import com.lekaha.simpletube.data.executor.JobExecutor
+import com.lekaha.simpletube.data.repository.SimpletubeCache
+import com.lekaha.simpletube.data.repository.SimpletubeRemote
+import com.lekaha.simpletube.domain.executor.PostExecutionThread
+import com.lekaha.simpletube.domain.executor.ThreadExecutor
+import com.lekaha.simpletube.domain.repository.SimpletubeRepository
+import com.lekaha.simpletube.remote.SimpletubeService
+import com.lekaha.simpletube.ui.UiThread
+import com.lekaha.simpletube.ui.injection.qualifier.ApplicationContext
+import com.lekaha.simpletube.ui.injection.scopes.PerApplication
 import com.nhaarman.mockito_kotlin.mock
 import dagger.Module
 import dagger.Provides
-import com.lekaha.simpletube.cache.PreferencesHelper
-import com.lekaha.simpletube.data.executor.JobExecutor
-import com.lekaha.simpletube.data.repository.BufferooCache
-import com.lekaha.simpletube.data.repository.BufferooRemote
-import com.lekaha.simpletube.domain.executor.PostExecutionThread
-import com.lekaha.simpletube.domain.executor.ThreadExecutor
-import com.lekaha.simpletube.domain.repository.BufferooRepository
-import com.lekaha.simpletube.remote.BufferooService
-import com.lekaha.simpletube.ui.UiThread
-import com.lekaha.simpletube.ui.injection.scopes.PerApplication
 
 @Module
 class TestApplicationModule {
 
     @Provides
     @PerApplication
-    fun provideContext(application: Application): Context {
-        return application
-    }
+    @ApplicationContext
+    fun provideContext(application: Application): Context = application
 
     @Provides
     @PerApplication
-    internal fun providePreferencesHelper(): PreferencesHelper {
-        return mock()
-    }
+    internal fun providePreferencesHelper(): PreferencesHelper = mock()
 
     @Provides
     @PerApplication
-    internal fun provideBufferooRepository(): BufferooRepository {
-        return mock()
-    }
+    internal fun provideSimpletubeRepository(): SimpletubeRepository = mock()
 
     @Provides
     @PerApplication
-    internal fun provideBufferooCache(): BufferooCache {
-        return mock()
-    }
+    internal fun provideSimpletubeCache(): SimpletubeCache = mock()
 
     @Provides
     @PerApplication
-    internal fun provideBufferooRemote(): BufferooRemote {
-        return mock()
-    }
+    internal fun provideSimpletubeRemote(): SimpletubeRemote = mock()
 
     @Provides
     @PerApplication
-    internal fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor {
-        return jobExecutor
-    }
+    internal fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor = jobExecutor
 
     @Provides
     @PerApplication
-    internal fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread {
-        return uiThread
-    }
+    internal fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread = uiThread
 
     @Provides
     @PerApplication
-    internal fun provideBufferooService(): BufferooService {
-        return mock()
-    }
+    internal fun provideSimpletubeService(): SimpletubeService = mock()
+
+    @Provides
+    @PerApplication
+    internal fun provideUiThread() = UiThread()
+
+    @Provides
+    @PerApplication
+    internal fun provideJobExecutor() = JobExecutor()
 
 }

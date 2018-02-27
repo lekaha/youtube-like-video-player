@@ -9,10 +9,10 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
-import com.lekaha.simpletube.domain.model.Bufferoo
+import com.lekaha.simpletube.domain.model.Simpletube
 import com.lekaha.simpletube.ui.R
 import com.lekaha.simpletube.ui.test.TestApplication
-import com.lekaha.simpletube.ui.test.factory.BufferooFactory
+import com.lekaha.simpletube.ui.test.factory.SimpletubeFactory
 import com.lekaha.simpletube.ui.test.util.RecyclerViewMatcher
 import org.junit.Rule
 import org.junit.Test
@@ -27,40 +27,40 @@ class BrowseActivityTest {
 
     @Test
     fun activityLaunches() {
-        stubBufferooRepositoryGetBufferoos(Single.just(BufferooFactory.makeBufferooList(2)))
+        stubSimpletubeRepositoryGetSimpletubes(Single.just(SimpletubeFactory.makeSimpletubeList(2)))
         activity.launchActivity(null)
     }
 
     @Test
-    fun bufferoosDisplay() {
-        val bufferoos = BufferooFactory.makeBufferooList(1)
-        stubBufferooRepositoryGetBufferoos(Single.just(bufferoos))
+    fun simpletubesDisplay() {
+        val simpletubes = SimpletubeFactory.makeSimpletubeList(1)
+        stubSimpletubeRepositoryGetSimpletubes(Single.just(simpletubes))
         activity.launchActivity(null)
 
-        checkBufferooDetailsDisplay(bufferoos[0], 0)
+        checkSimpletubeDetailsDisplay(simpletubes[0], 0)
     }
 
     @Test
-    fun bufferoosAreScrollable() {
-        val bufferoos = BufferooFactory.makeBufferooList(20)
-        stubBufferooRepositoryGetBufferoos(Single.just(bufferoos))
+    fun simpletubesAreScrollable() {
+        val simpletubes = SimpletubeFactory.makeSimpletubeList(20)
+        stubSimpletubeRepositoryGetSimpletubes(Single.just(simpletubes))
         activity.launchActivity(null)
 
-        bufferoos.forEachIndexed { index, bufferoo ->
+        simpletubes.forEachIndexed { index, simpletube ->
             onView(withId(R.id.recycler_browse)).perform(RecyclerViewActions.
                     scrollToPosition<RecyclerView.ViewHolder>(index))
-            checkBufferooDetailsDisplay(bufferoo, index) }
+            checkSimpletubeDetailsDisplay(simpletube, index) }
     }
 
-    private fun checkBufferooDetailsDisplay(bufferoo: Bufferoo, position: Int) {
+    private fun checkSimpletubeDetailsDisplay(simpletube: Simpletube, position: Int) {
         onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_browse).atPosition(position))
-                .check(matches(hasDescendant(withText(bufferoo.name))))
+                .check(matches(hasDescendant(withText(simpletube.name))))
         onView(RecyclerViewMatcher.withRecyclerView(R.id.recycler_browse).atPosition(position))
-                .check(matches(hasDescendant(withText(bufferoo.title))))
+                .check(matches(hasDescendant(withText(simpletube.title))))
     }
 
-    private fun stubBufferooRepositoryGetBufferoos(single: Single<List<Bufferoo>>) {
-        whenever(TestApplication.appComponent().bufferooRepository().getBufferoos())
+    private fun stubSimpletubeRepositoryGetSimpletubes(single: Single<List<Simpletube>>) {
+        whenever(TestApplication.appComponent().simpletubeRepository().getSimpletubes())
                 .thenReturn(single)
     }
 

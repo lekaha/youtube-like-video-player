@@ -1,25 +1,25 @@
 package com.lekaha.simpletube.ui.injection.module
 
 import android.content.Context
-import com.lekaha.simpletube.cache.BufferooCacheImpl
+import com.lekaha.simpletube.cache.SimpletubeCacheImpl
 import com.lekaha.simpletube.cache.PreferencesHelper
 import com.lekaha.simpletube.cache.db.DbOpenHelper
-import com.lekaha.simpletube.cache.mapper.BufferooEntityMapper
-import com.lekaha.simpletube.data.BufferooDataRepository
-import com.lekaha.simpletube.data.repository.BufferooCache
-import com.lekaha.simpletube.data.repository.BufferooRemote
-import com.lekaha.simpletube.data.source.BufferooCacheDataStore
-import com.lekaha.simpletube.data.source.BufferooDataStoreFactory
-import com.lekaha.simpletube.data.source.BufferooRemoteDataStore
+import com.lekaha.simpletube.cache.mapper.SimpletubeEntityMapper
+import com.lekaha.simpletube.data.SimpletubeDataRepository
+import com.lekaha.simpletube.data.repository.SimpletubeCache
+import com.lekaha.simpletube.data.repository.SimpletubeRemote
+import com.lekaha.simpletube.data.source.SimpletubeCacheDataStore
+import com.lekaha.simpletube.data.source.SimpletubeDataStoreFactory
+import com.lekaha.simpletube.data.source.SimpletubeRemoteDataStore
 import com.lekaha.simpletube.domain.executor.PostExecutionThread
 import com.lekaha.simpletube.domain.executor.ThreadExecutor
-import com.lekaha.simpletube.domain.interactor.browse.GetBufferoos
-import com.lekaha.simpletube.domain.repository.BufferooRepository
-import com.lekaha.simpletube.presentation.browse.BrowseBufferoosContract
-import com.lekaha.simpletube.presentation.browse.BrowseBufferoosPresenter
-import com.lekaha.simpletube.presentation.mapper.BufferooMapper
-import com.lekaha.simpletube.remote.BufferooRemoteImpl
-import com.lekaha.simpletube.remote.BufferooService
+import com.lekaha.simpletube.domain.interactor.browse.GetSimpletubes
+import com.lekaha.simpletube.domain.repository.SimpletubeRepository
+import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesContract
+import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesPresenter
+import com.lekaha.simpletube.presentation.mapper.SimpletubeMapper
+import com.lekaha.simpletube.remote.SimpletubeRemoteImpl
+import com.lekaha.simpletube.remote.SimpletubeService
 import com.lekaha.simpletube.ui.browse.BrowseViewHolder
 import com.lekaha.simpletube.ui.injection.qualifier.ActivityContext
 import com.lekaha.simpletube.ui.model.BrowseViewModelFactory
@@ -34,69 +34,69 @@ import dagger.Provides
 open class BrowseActivityModule {
 
     @Provides
-    internal fun provideGetBufferoos(
-        bufferooRepository: BufferooRepository,
+    internal fun provideGetSimpletubes(
+        simpletubeRepository: SimpletubeRepository,
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
-    ) = GetBufferoos(bufferooRepository, threadExecutor, postExecutionThread)
+    ) = GetSimpletubes(simpletubeRepository, threadExecutor, postExecutionThread)
 
     @Provides
-    internal fun provideBufferooEntityMapper() = BufferooEntityMapper()
+    internal fun provideSimpletubeEntityMapper() = SimpletubeEntityMapper()
 
     @Provides
-    internal fun provideBufferooMapper() = com.lekaha.simpletube.presentation.mapper.BufferooMapper()
+    internal fun provideSimpletubeMapper() = com.lekaha.simpletube.presentation.mapper.SimpletubeMapper()
 
     @Provides
-    internal fun provideDbBufferooMapper() = com.lekaha.simpletube.cache.db.mapper.BufferooMapper()
+    internal fun provideDbSimpletubeMapper() = com.lekaha.simpletube.cache.db.mapper.SimpletubeMapper()
 
     @Provides
-    internal fun provideRemoteBufferooMapper() =
-        com.lekaha.simpletube.remote.mapper.BufferooEntityMapper()
+    internal fun provideRemoteSimpletubeMapper() =
+        com.lekaha.simpletube.remote.mapper.SimpletubeEntityMapper()
 
     @Provides
-    internal fun provideDataBufferooMapper() = com.lekaha.simpletube.data.mapper.BufferooMapper()
+    internal fun provideDataSimpletubeMapper() = com.lekaha.simpletube.data.mapper.SimpletubeMapper()
 
     @Provides
-    internal fun provideUiBufferooMapper() = com.lekaha.simpletube.ui.mapper.BufferooMapper()
+    internal fun provideUiSimpletubeMapper() = com.lekaha.simpletube.ui.mapper.SimpletubeMapper()
 
     @Provides
-    internal fun provideBufferooCache(
+    internal fun provideSimpletubeCache(
         factory: DbOpenHelper,
-        entityMapper: BufferooEntityMapper,
-        mapper: com.lekaha.simpletube.cache.db.mapper.BufferooMapper,
+        entityMapper: SimpletubeEntityMapper,
+        mapper: com.lekaha.simpletube.cache.db.mapper.SimpletubeMapper,
         helper: PreferencesHelper
-    ): BufferooCache = BufferooCacheImpl(factory, entityMapper, mapper, helper)
+    ): SimpletubeCache = SimpletubeCacheImpl(factory, entityMapper, mapper, helper)
 
     @Provides
-    internal fun provideBufferooRemote(
-        service: BufferooService,
-        factory: com.lekaha.simpletube.remote.mapper.BufferooEntityMapper
-    ): BufferooRemote = BufferooRemoteImpl(service, factory)
+    internal fun provideSimpletubeRemote(
+        service: SimpletubeService,
+        factory: com.lekaha.simpletube.remote.mapper.SimpletubeEntityMapper
+    ): SimpletubeRemote = SimpletubeRemoteImpl(service, factory)
 
     @Provides
-    internal fun provideBufferooDataStoreFactory(
-        bufferooCache: BufferooCache,
-        bufferooCacheDataStore: BufferooCacheDataStore,
-        bufferooRemoteDataStore: BufferooRemoteDataStore
-    ): BufferooDataStoreFactory = BufferooDataStoreFactory(
-        bufferooCache,
-        bufferooCacheDataStore,
-        bufferooRemoteDataStore
+    internal fun provideSimpletubeDataStoreFactory(
+        simpletubeCache: SimpletubeCache,
+        simpletubeCacheDataStore: SimpletubeCacheDataStore,
+        simpletubeRemoteDataStore: SimpletubeRemoteDataStore
+    ): SimpletubeDataStoreFactory = SimpletubeDataStoreFactory(
+        simpletubeCache,
+        simpletubeCacheDataStore,
+        simpletubeRemoteDataStore
     )
 
     @Provides
-    internal fun provideBufferooCacheDataStore(bufferooCache: BufferooCache)
-            : BufferooCacheDataStore = BufferooCacheDataStore(bufferooCache)
+    internal fun provideSimpletubeCacheDataStore(simpletubeCache: SimpletubeCache)
+            : SimpletubeCacheDataStore = SimpletubeCacheDataStore(simpletubeCache)
 
     @Provides
-    internal fun provideBufferooRemoteDataStore(bufferooRemote: BufferooRemote)
-            : BufferooRemoteDataStore = BufferooRemoteDataStore(bufferooRemote)
+    internal fun provideSimpletubeRemoteDataStore(simpletubeRemote: SimpletubeRemote)
+            : SimpletubeRemoteDataStore = SimpletubeRemoteDataStore(simpletubeRemote)
 
     @Provides
-    internal fun provideBufferooRepository(
-        factory: BufferooDataStoreFactory,
-        mapper: com.lekaha.simpletube.data.mapper.BufferooMapper
-    ): BufferooRepository = BufferooDataRepository(factory, mapper)
+    internal fun provideSimpletubeRepository(
+        factory: SimpletubeDataStoreFactory,
+        mapper: com.lekaha.simpletube.data.mapper.SimpletubeMapper
+    ): SimpletubeRepository = SimpletubeDataRepository(factory, mapper)
 
     @Provides
     internal fun provideBrowseViewHolderFactory(@ActivityContext context: Context) =
@@ -106,10 +106,10 @@ open class BrowseActivityModule {
     internal fun provideBrowseViewHolderBinder() = BrowseViewHolder.BrowseViewHolderBinder()
 
     @Provides
-    internal fun provideBrowsePresenter(getBufferoos: GetBufferoos, mapper: BufferooMapper)
-            : BrowseBufferoosContract.Presenter = BrowseBufferoosPresenter(getBufferoos, mapper)
+    internal fun provideBrowsePresenter(getSimpletubes: GetSimpletubes, mapper: SimpletubeMapper)
+            : BrowseSimpletubesContract.Presenter = BrowseSimpletubesPresenter(getSimpletubes, mapper)
 
     @Provides
-    internal fun provideBrowseViewModelFactory(presenter: BrowseBufferoosContract.Presenter) =
+    internal fun provideBrowseViewModelFactory(presenter: BrowseSimpletubesContract.Presenter) =
         BrowseViewModelFactory(presenter)
 }

@@ -1,7 +1,7 @@
 package com.lekaha.simpletube.ui.injection.component
 
 import android.app.Application
-import com.lekaha.simpletube.ui.BufferooApplication
+import com.lekaha.simpletube.ui.SimpletubeApplication
 import com.lekaha.simpletube.ui.injection.module.ActivityBindingModule
 import com.lekaha.simpletube.ui.injection.module.ApplicationModule
 import com.lekaha.simpletube.ui.injection.module.NetModule
@@ -26,7 +26,7 @@ interface ApplicationComponent: AndroidInjector<DaggerApplication> {
         fun build(): ApplicationComponent
     }
 
-    fun inject(app: BufferooApplication)
+    fun inject(app: SimpletubeApplication)
 
     override fun inject(instance: DaggerApplication)
 

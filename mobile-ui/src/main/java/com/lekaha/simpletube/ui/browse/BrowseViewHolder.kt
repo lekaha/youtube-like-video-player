@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lekaha.simpletube.ui.R
-import com.lekaha.simpletube.ui.model.BufferooViewModel
+import com.lekaha.simpletube.ui.model.SimpletubeViewModel
 import com.lekaha.simpletube.ui.view.recycler.DisplayableItem
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderBinder
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderFactory
@@ -20,12 +20,12 @@ class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var nameText: TextView = view.findViewById(R.id.text_name)
     var titleText: TextView = view.findViewById(R.id.text_title)
 
-    fun bind(bufferoo: BufferooViewModel) {
-        nameText.text = bufferoo.name
-        titleText.text = bufferoo.title
+    fun bind(simpletube: SimpletubeViewModel) {
+        nameText.text = simpletube.name
+        titleText.text = simpletube.title
 
         Glide.with(itemView.context)
-            .load(bufferoo.avatar)
+            .load(simpletube.avatar)
             .apply(RequestOptions.circleCropTransform())
             .into(avatarImage)
     }
@@ -38,7 +38,7 @@ class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             BrowseViewHolder(
                 LayoutInflater
                     .from(context)
-                    .inflate(R.layout.item_bufferoo, parent, false)
+                    .inflate(R.layout.item_simpletube, parent, false)
             )
 
     }
@@ -49,8 +49,8 @@ class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             item: DisplayableItem<*>
         ) {
             var browseViewHolder = BrowseViewHolder::class.java.cast(viewHolder)
-            var bufferooViewModel = BufferooViewModel::class.java.cast(item.model())
-            browseViewHolder.bind(bufferooViewModel)
+            var simpletubeViewModel = SimpletubeViewModel::class.java.cast(item.model())
+            browseViewHolder.bind(simpletubeViewModel)
         }
 
     }

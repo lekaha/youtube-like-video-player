@@ -5,26 +5,26 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.lekaha.simpletube.presentation.ViewResponse
-import com.lekaha.simpletube.presentation.browse.BrowseBufferoosContract
-import com.lekaha.simpletube.presentation.model.BufferooView
+import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesContract
+import com.lekaha.simpletube.presentation.model.SimpletubeView
 
-class BrowseViewModel(var onboardingPresenter: BrowseBufferoosContract.Presenter)
-    : ViewModel(), LifecycleObserver, BrowseBufferoosContract.View {
+class BrowseViewModel(var onboardingPresenter: BrowseSimpletubesContract.Presenter)
+    : ViewModel(), LifecycleObserver, BrowseSimpletubesContract.View {
 
     private var isProgressing: MutableLiveData<Boolean> = MutableLiveData()
     private var occurredError: MutableLiveData<Throwable> = MutableLiveData()
-    private var bufferoos: MutableLiveData<List<BufferooView>> = MutableLiveData()
+    private var simpletubes: MutableLiveData<List<SimpletubeView>> = MutableLiveData()
 
     init {
         onboardingPresenter.setView(this)
     }
 
-    override fun setPresenter(presenter: BrowseBufferoosContract.Presenter) {
+    override fun setPresenter(presenter: BrowseSimpletubesContract.Presenter) {
         onboardingPresenter = presenter
         onboardingPresenter.setView(this)
     }
 
-    override fun onResponse(response: ViewResponse<List<BufferooView>>) {
+    override fun onResponse(response: ViewResponse<List<SimpletubeView>>) {
         when(response.status) {
             ViewResponse.Status.LOADING -> { isProgressing.value = true }
             ViewResponse.Status.ERROR -> {
@@ -33,7 +33,7 @@ class BrowseViewModel(var onboardingPresenter: BrowseBufferoosContract.Presenter
             }
             ViewResponse.Status.SUCCESS -> {
                 isProgressing.value = false
-                bufferoos.value = response.data
+                simpletubes.value = response.data
             }
         }
     }
@@ -42,7 +42,7 @@ class BrowseViewModel(var onboardingPresenter: BrowseBufferoosContract.Presenter
 
     fun occurredError(): LiveData<Throwable> = occurredError
 
-    fun fetchedData(): LiveData<List<BufferooView>> = bufferoos
+    fun fetchedData(): LiveData<List<SimpletubeView>> = simpletubes
 
     fun load() {
         onboardingPresenter.start()

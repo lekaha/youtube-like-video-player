@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.lekaha.simpletube.presentation.model.BufferooView
+import com.lekaha.simpletube.presentation.model.SimpletubeView
 import com.lekaha.simpletube.ui.BaseInjectingFragment
 import com.lekaha.simpletube.ui.R
-import com.lekaha.simpletube.ui.mapper.BufferooMapper
+import com.lekaha.simpletube.ui.mapper.SimpletubeMapper
 import com.lekaha.simpletube.ui.model.BrowseViewModel
 import com.lekaha.simpletube.ui.model.BrowseViewModelFactory
 import kotlinx.android.synthetic.main.fragment_browse.*
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class BrowseFragment: BaseInjectingFragment() {
 
     @Inject lateinit var browseAdapter: BrowseAdapter
-    @Inject lateinit var mapper: BufferooMapper
+    @Inject lateinit var mapper: SimpletubeMapper
     @Inject lateinit var browseViewModelFactory: BrowseViewModelFactory
 
     private var viewModel: BrowseViewModel? = null
@@ -50,13 +50,13 @@ class BrowseFragment: BaseInjectingFragment() {
         progress.visibility = View.VISIBLE
     }
 
-    private fun showBufferoos(bufferoos: List<BufferooView>) {
-        browseAdapter.update(mapper.mapToViewModels(bufferoos))
+    private fun showSimpletubes(simpletubes: List<SimpletubeView>) {
+        browseAdapter.update(mapper.mapToViewModels(simpletubes))
         browseAdapter.notifyDataSetChanged()
         recycler_browse.visibility = View.VISIBLE
     }
 
-    private fun hideBufferoos() {
+    private fun hideSimpletubes() {
         recycler_browse.visibility = View.VISIBLE
     }
 
@@ -94,14 +94,14 @@ class BrowseFragment: BaseInjectingFragment() {
             data?.let {
                 if (data.isNotEmpty()) {
                     hideEmptyState()
-                    showBufferoos(data)
+                    showSimpletubes(data)
                 } else {
                     showEmptyState()
-                    hideBufferoos()
+                    hideSimpletubes()
                 }
             } ?: run {
                 showEmptyState()
-                hideBufferoos()
+                hideSimpletubes()
             }
         })
 

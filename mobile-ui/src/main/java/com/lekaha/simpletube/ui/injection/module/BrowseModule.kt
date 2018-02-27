@@ -2,7 +2,7 @@ package com.lekaha.simpletube.ui.injection.module
 
 import com.lekaha.simpletube.ui.browse.BrowseAdapter
 import com.lekaha.simpletube.ui.browse.BrowseViewHolder
-import com.lekaha.simpletube.ui.model.BufferooViewModel.Companion.DISPLAY_TYPE_BROWSE
+import com.lekaha.simpletube.ui.model.SimpletubeViewModel.Companion.DISPLAY_TYPE_BROWSE
 import com.lekaha.simpletube.ui.view.recycler.ItemComparator
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderBinder
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderFactory
