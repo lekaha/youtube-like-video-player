@@ -13,11 +13,13 @@ import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
 
 @PerApplication
-@Component(modules = arrayOf(
+@Component(
+    modules = [
         ActivityBindingModule::class,
         ApplicationModule::class,
         NetModule::class,
-        AndroidSupportInjectionModule::class))
+        AndroidSupportInjectionModule::class
+    ])
 interface ApplicationComponent: AndroidInjector<DaggerApplication> {
 
     @Component.Builder

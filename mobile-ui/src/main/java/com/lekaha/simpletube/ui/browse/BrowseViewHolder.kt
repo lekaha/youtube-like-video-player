@@ -16,6 +16,7 @@ import com.lekaha.simpletube.ui.view.recycler.ViewHolderBinder
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderFactory
 
 class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
     var avatarImage: ImageView = view.findViewById(R.id.image_avatar)
     var nameText: TextView = view.findViewById(R.id.text_name)
     var titleText: TextView = view.findViewById(R.id.text_title)
@@ -26,6 +27,7 @@ class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         Glide.with(itemView.context)
             .load(simpletube.avatar)
+            .apply(RequestOptions().placeholder(R.drawable.empty_image_holder))
             .into(avatarImage)
     }
 

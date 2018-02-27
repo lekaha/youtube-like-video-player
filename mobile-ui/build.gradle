@@ -20,6 +20,12 @@ android {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         def BASE_URL = properties.getProperty("base_url")
         buildConfigField "String", "BASE_URL", "\"${BASE_URL}\""
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
 
     buildTypes {
@@ -53,6 +59,20 @@ android {
         ignoreWarnings true
     }
 
+    flavorDimensions "environment"
+
+    productFlavors {
+
+        offline {
+            dimension "environment"
+            applicationIdSuffix ".offline"
+            buildConfigField "String", "BASE_URL", "\"https://lekaha.github.io/\""
+        }
+
+        online {
+            dimension "environment"
+        }
+    }
 }
 
 kapt {

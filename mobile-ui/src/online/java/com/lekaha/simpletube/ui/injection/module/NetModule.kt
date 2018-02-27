@@ -46,7 +46,7 @@ open class NetModule {
 
     @Provides
     @Named(BASE_URL)
-    internal fun provideBaseUrl() = "${BuildConfig.BASE_URL}"
+    internal fun provideBaseUrl() = BuildConfig.BASE_URL
 
     @Provides
     @Named(CONNECT_TIMEOUT)
