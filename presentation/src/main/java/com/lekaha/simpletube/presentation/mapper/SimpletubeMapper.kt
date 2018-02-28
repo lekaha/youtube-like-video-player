@@ -13,7 +13,7 @@ open class SimpletubeMapper : Mapper<SimpletubeView, Simpletube> {
      * Map a [Simpletube] instance to a [SimpletubeView] instance
      */
     override fun mapToView(type: Simpletube): SimpletubeView {
-        return SimpletubeView(type.name, type.title, type.avatar)
+        return SimpletubeView(type.name, type.title, type.thumbnailUrl)
     }
 
 

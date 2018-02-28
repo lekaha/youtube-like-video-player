@@ -1,21 +1,22 @@
 package com.lekaha.simpletube.domain.interactor
 
+import com.lekaha.simpletube.domain.executor.PostExecutionThread
+import com.lekaha.simpletube.domain.executor.ThreadExecutor
 import io.reactivex.Single
+import io.reactivex.SingleTransformer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import com.lekaha.simpletube.domain.executor.PostExecutionThread
-import com.lekaha.simpletube.domain.executor.ThreadExecutor
-
 
 
 /**
  * Abstract class for a UseCase that returns an instance of a [Single].
  */
 abstract class SingleUseCase<T, in Params> constructor(
-        private val threadExecutor: ThreadExecutor,
-        private val postExecutionThread: PostExecutionThread) {
+    private val threadExecutor: ThreadExecutor,
+    private val postExecutionThread: PostExecutionThread
+) {
 
     private val disposables = CompositeDisposable()
 
@@ -27,10 +28,24 @@ abstract class SingleUseCase<T, in Params> constructor(
     /**
      * Executes the current use case.
      */
+    open fun emit(params: Params? = null): Single<T> = this.buildUseCaseObservable(params)
+        .subscribeOn(Schedulers.from(threadExecutor))
+        .observeOn(postExecutionThread.scheduler) as Single<T>
+
+    /**
+     * Executes the current use case.
+     */
     open fun execute(singleObserver: DisposableSingleObserver<T>, params: Params? = null) {
         val single = this.buildUseCaseObservable(params)
-                .subscribeOn(Schedulers.from(threadExecutor))
-                .observeOn(postExecutionThread.scheduler) as Single<T>
+            .subscribeOn(Schedulers.from(threadExecutor))
+            .observeOn(postExecutionThread.scheduler) as Single<T>
+        addDisposable(single.subscribeWith(singleObserver))
+    }
+
+    /**
+     * Executes the current use case.
+     */
+    open fun execute(singleObserver: DisposableSingleObserver<T>, single: Single<T>) {
         addDisposable(single.subscribeWith(singleObserver))
     }
 

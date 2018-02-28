@@ -4,24 +4,21 @@ import com.lekaha.simpletube.domain.executor.PostExecutionThread
 import com.lekaha.simpletube.domain.executor.ThreadExecutor
 import com.lekaha.simpletube.domain.interactor.SingleUseCase
 import com.lekaha.simpletube.domain.model.Simpletube
-import com.lekaha.simpletube.domain.model.SimpletubeSection
-import com.lekaha.simpletube.domain.model.SimpletubeSections
 import com.lekaha.simpletube.domain.repository.SimpletubeRepository
 import io.reactivex.Single
 
 /**
- * Use case used for retreiving a [List] of [SimpletubeSection]
- * instances from the [SimpletubeRepository]
+ * Use case used for retreiving a [List] of [Simpletube] instances from the [SimpletubeRepository]
  */
-open class GetSimpletubeSections constructor(
+open class GetSimpletube constructor(
     val simpletubeRepository: SimpletubeRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) :
-    SingleUseCase<SimpletubeSections, Simpletube>(threadExecutor, postExecutionThread) {
+    SingleUseCase<Simpletube, String>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Simpletube?): Single<SimpletubeSections> {
-        return simpletubeRepository.getSimpletubeSections(params!!)
+    public override fun buildUseCaseObservable(params: String?): Single<Simpletube> {
+        return simpletubeRepository.getSimpletube(params)
     }
 
 }

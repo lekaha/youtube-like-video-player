@@ -6,8 +6,8 @@ package com.lekaha.simpletube.remote.model
 data class SimpletubeModel(
     val title: String,
     val presenterName: String,
-    val description: String,
     val thumbnailUrl: String,
+    val description: String,
     val videoUrl: String,
     val videoDuration: Long
 )

@@ -15,7 +15,7 @@ open class SimpletubeSectionMapper : Mapper<SimpletubeSectionView, SimpletubeSec
      * Map a [Simpletube] instance to a [SimpletubeView] instance
      */
     override fun mapToView(type: SimpletubeSection): SimpletubeSectionView {
-        return SimpletubeSectionView(type.name, type.title, type.avatar)
+        return SimpletubeSectionView(type.id, type.title, type.description)
     }
 
 

@@ -25,7 +25,7 @@ class SimpletubeMapperTest {
 
         assertEquals(simpletubeView.name, simpletubeViewModel.name)
         assertEquals(simpletubeView.title, simpletubeViewModel.title)
-        assertEquals(simpletubeView.avatar, simpletubeViewModel.avatar)
+        assertEquals(simpletubeView.thumbnailUrl, simpletubeViewModel.avatar)
     }
 
 }

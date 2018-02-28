@@ -24,7 +24,7 @@ class SimpletubeEntityMapperTest {
 
         assertEquals(simpletubeModel.presenterName, simpletubeEntity.name)
         assertEquals(simpletubeModel.title, simpletubeEntity.title)
-        assertEquals(simpletubeModel.thumbnailUrl, simpletubeEntity.avatar)
+        assertEquals(simpletubeModel.thumbnailUrl, simpletubeEntity.thumbnailUrl)
     }
 
 }

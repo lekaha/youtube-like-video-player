@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lekaha.simpletube.ui.R
-import com.lekaha.simpletube.ui.ext.v
 import com.lekaha.simpletube.ui.model.SimpletubeViewModel
 import com.lekaha.simpletube.ui.view.recycler.DisplayableItem
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderBinder

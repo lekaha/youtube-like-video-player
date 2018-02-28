@@ -1,6 +1,7 @@
 package com.lekaha.simpletube.cache.test.factory
 
 import com.lekaha.simpletube.cache.model.CachedSimpletube
+import com.lekaha.simpletube.cache.test.factory.DataFactory.Factory.randomLong
 import com.lekaha.simpletube.data.model.SimpletubeEntity
 import com.lekaha.simpletube.cache.test.factory.DataFactory.Factory.randomUuid
 
@@ -12,11 +13,25 @@ class SimpletubeFactory {
     companion object Factory {
 
         fun makeCachedSimpletube(): CachedSimpletube {
-            return CachedSimpletube(randomUuid(), randomUuid(), randomUuid())
+            return CachedSimpletube(
+                randomUuid(),
+                randomUuid(),
+                randomUuid(),
+                randomUuid(),
+                randomUuid(),
+                randomLong()
+            )
         }
 
         fun makeSimpletubeEntity(): SimpletubeEntity {
-            return SimpletubeEntity(randomUuid(), randomUuid(), randomUuid())
+            return SimpletubeEntity(
+                randomUuid(),
+                randomUuid(),
+                randomUuid(),
+                randomUuid(),
+                randomUuid(),
+                randomLong()
+            )
         }
 
         fun makeSimpletubeEntityList(count: Int): List<SimpletubeEntity> {

@@ -13,6 +13,7 @@ import com.lekaha.simpletube.data.source.SimpletubeDataStoreFactory
 import com.lekaha.simpletube.data.source.SimpletubeRemoteDataStore
 import com.lekaha.simpletube.domain.executor.PostExecutionThread
 import com.lekaha.simpletube.domain.executor.ThreadExecutor
+import com.lekaha.simpletube.domain.interactor.browse.GetSimpletube
 import com.lekaha.simpletube.domain.interactor.browse.GetSimpletubeSections
 import com.lekaha.simpletube.domain.interactor.browse.GetSimpletubes
 import com.lekaha.simpletube.domain.repository.SimpletubeRepository
@@ -22,10 +23,13 @@ import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesContract
 import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesPresenter
 import com.lekaha.simpletube.presentation.mapper.SimpletubeMapper
 import com.lekaha.simpletube.presentation.mapper.SimpletubeSectionMapper
+import com.lekaha.simpletube.presentation.mapper.SimpletubeSectionsMapper
 import com.lekaha.simpletube.remote.SimpletubeRemoteImpl
 import com.lekaha.simpletube.remote.SimpletubeService
+import com.lekaha.simpletube.ui.browse.BrowseDetailViewHolder
 import com.lekaha.simpletube.ui.browse.BrowseViewHolder
 import com.lekaha.simpletube.ui.injection.qualifier.ActivityContext
+import com.lekaha.simpletube.ui.model.BrowseDetailViewModelFactory
 import com.lekaha.simpletube.ui.model.BrowseViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -52,6 +56,13 @@ open class BrowseActivityModule {
     ) = GetSimpletubeSections(simpletubeRepository, threadExecutor, postExecutionThread)
 
     @Provides
+    internal fun provideGetSimpletube(
+        simpletubeRepository: SimpletubeRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ) = GetSimpletube(simpletubeRepository, threadExecutor, postExecutionThread)
+
+    @Provides
     internal fun provideSimpletubeEntityMapper() = SimpletubeEntityMapper()
 
     @Provides
@@ -60,6 +71,9 @@ open class BrowseActivityModule {
 
     @Provides
     internal fun provideSimpletubeSectionMapper() = SimpletubeSectionMapper()
+
+    @Provides
+    internal fun provideSimpletubeSectionsMapper() = SimpletubeSectionsMapper()
 
     @Provides
     internal fun provideDbSimpletubeMapper() =
@@ -72,6 +86,10 @@ open class BrowseActivityModule {
     @Provides
     internal fun provideDataSimpletubeMapper() =
         com.lekaha.simpletube.data.mapper.SimpletubeMapper()
+
+    @Provides
+    internal fun provideUiSimpletubeSectionMapper() =
+        com.lekaha.simpletube.ui.mapper.SimpletubeSectionMapper()
 
     @Provides
     internal fun provideUiSimpletubeMapper() = com.lekaha.simpletube.ui.mapper.SimpletubeMapper()
@@ -123,6 +141,14 @@ open class BrowseActivityModule {
     internal fun provideBrowseViewHolderBinder() = BrowseViewHolder.BrowseViewHolderBinder()
 
     @Provides
+    internal fun provideBrowseDetailViewHolderFactory(@ActivityContext context: Context) =
+        BrowseDetailViewHolder.BrowseDetailViewHolderFactory(context)
+
+    @Provides
+    internal fun provideBrowseDetailViewHolderBinder() =
+        BrowseDetailViewHolder.BrowseDetailViewHolderBinder()
+
+    @Provides
     internal fun provideBrowsePresenter(
         getSimpletubes: GetSimpletubes,
         mapper: SimpletubeMapper
@@ -132,11 +158,16 @@ open class BrowseActivityModule {
     @Provides
     internal fun provideBrowseDetailPresenter(
         getSimpletubeSections: GetSimpletubeSections,
-        mapper: SimpletubeSectionMapper
+        getSimpletube: GetSimpletube,
+        mapper: SimpletubeSectionsMapper
     ): BrowseDetailSimpletubesContract.Presenter =
-        BrowseDetailSimpletubesPresenter(getSimpletubeSections, mapper)
+        BrowseDetailSimpletubesPresenter(getSimpletubeSections, getSimpletube, mapper)
 
     @Provides
     internal fun provideBrowseViewModelFactory(presenter: BrowseSimpletubesContract.Presenter) =
         BrowseViewModelFactory(presenter)
+
+    @Provides
+    internal fun provideBrowseDetailViewModelFactory(presenter: BrowseDetailSimpletubesContract.Presenter) =
+        BrowseDetailViewModelFactory(presenter)
 }

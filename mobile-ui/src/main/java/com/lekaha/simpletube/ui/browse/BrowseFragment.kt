@@ -13,6 +13,8 @@ import com.lekaha.simpletube.ui.R
 import com.lekaha.simpletube.ui.mapper.SimpletubeMapper
 import com.lekaha.simpletube.ui.model.BrowseViewModel
 import com.lekaha.simpletube.ui.model.BrowseViewModelFactory
+import com.lekaha.simpletube.ui.model.SimpletubeViewModel
+import com.lekaha.simpletube.ui.model.SimpletubeViewModel.Companion
 import kotlinx.android.synthetic.main.fragment_browse.progress
 import kotlinx.android.synthetic.main.fragment_browse.recycler_browse
 import javax.inject.Inject
@@ -62,13 +64,13 @@ class BrowseFragment : BaseInjectingFragment() {
             val b = Bundle()
             b.putParcelable(DetailFragment.ARGS_MODEL, it)
             navigator.showUp<DetailFragment>(R.id.detail, b)
-        })
+        }.filter { it.type() == SimpletubeViewModel.DISPLAY_TYPE_BROWSE })
         browseAdapter.notifyDataSetChanged()
         recycler_browse.visibility = View.VISIBLE
     }
 
     private fun hideSimpletubes() {
-        recycler_browse.visibility = View.VISIBLE
+        recycler_browse.visibility = View.GONE
     }
 
     private fun showErrorState() {

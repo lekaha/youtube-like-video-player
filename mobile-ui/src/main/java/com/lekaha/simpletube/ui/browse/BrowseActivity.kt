@@ -30,4 +30,10 @@ class BrowseActivity :
             }
         }
     }
+
+    override fun onBackPressed() {
+        navigator.pressedBackKey<DetailFragment>(R.id.detail) {
+            it.isShowUp().apply { it.showMini() }
+        }.takeIf { !it }?.run { super.onBackPressed() }
+    }
 }

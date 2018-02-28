@@ -16,5 +16,8 @@
     <dimen name="x_draggable_scale_factor" format="float">2</dimen>
     <dimen name="y_draggable_scale_factor" format="float">2</dimen>
     <dimen name="margin_draggable_view">10dp</dimen>
+    <dimen name="video_height">190dp</dimen>
+    <dimen name="section_layout_title_height">36dp</dimen>
+    <dimen name="section_layout_title_size">16sp</dimen>
 
 </resources>

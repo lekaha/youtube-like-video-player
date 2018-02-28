@@ -5,26 +5,29 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.lekaha.simpletube.presentation.ViewResponse
-import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesContract
-import com.lekaha.simpletube.presentation.model.SimpletubeView
+import com.lekaha.simpletube.presentation.browse.BrowseDetailSimpletubesContract
+import com.lekaha.simpletube.presentation.model.SimpletubeSectionsView
 
-class BrowseDetailViewModel(var onboardingPresenter: BrowseSimpletubesContract.Presenter)
-    : ViewModel(), LifecycleObserver, BrowseSimpletubesContract.View {
+class BrowseDetailViewModel(var detailPresenter: BrowseDetailSimpletubesContract.Presenter)
+    : ViewModel(), LifecycleObserver, BrowseDetailSimpletubesContract.View {
 
     private var isProgressing: MutableLiveData<Boolean> = MutableLiveData()
     private var occurredError: MutableLiveData<Throwable> = MutableLiveData()
-    private var simpletubes: MutableLiveData<List<SimpletubeView>> = MutableLiveData()
+    private var simpletubeSections: MutableLiveData<SimpletubeSectionsView> = MutableLiveData()
+    private lateinit var browseDetailTitle: String
 
     init {
-        onboardingPresenter.setView(this)
+        detailPresenter.setView(this)
     }
 
-    override fun setPresenter(presenter: BrowseSimpletubesContract.Presenter) {
-        onboardingPresenter = presenter
-        onboardingPresenter.setView(this)
+    override fun getSimpletubeName(): String = browseDetailTitle
+
+    override fun setPresenter(presenter: BrowseDetailSimpletubesContract.Presenter) {
+        this.detailPresenter = presenter
+        this.detailPresenter.setView(this)
     }
 
-    override fun onResponse(response: ViewResponse<List<SimpletubeView>>) {
+    override fun onResponse(response: ViewResponse<SimpletubeSectionsView>) {
         when(response.status) {
             ViewResponse.Status.LOADING -> { isProgressing.value = true }
             ViewResponse.Status.ERROR -> {
@@ -33,7 +36,7 @@ class BrowseDetailViewModel(var onboardingPresenter: BrowseSimpletubesContract.P
             }
             ViewResponse.Status.SUCCESS -> {
                 isProgressing.value = false
-                simpletubes.value = response.data
+                simpletubeSections.value = response.data
             }
         }
     }
@@ -42,14 +45,15 @@ class BrowseDetailViewModel(var onboardingPresenter: BrowseSimpletubesContract.P
 
     fun occurredError(): LiveData<Throwable> = occurredError
 
-    fun fetchedData(): LiveData<List<SimpletubeView>> = simpletubes
+    fun fetchedData(): LiveData<SimpletubeSectionsView> = simpletubeSections
 
-    fun load() {
-//        onboardingPresenter.start()
+    fun load(title: String) {
+        browseDetailTitle = title
+        detailPresenter.start()
     }
 
     override fun onCleared() {
-//        onboardingPresenter.stop()
+        detailPresenter.stop()
     }
 
 

@@ -26,7 +26,7 @@ open class RecyclerViewMatcher constructor(var recyclerViewId: Int) {
                     try {
                         idDescription = this.resources!!.getResourceName(recyclerViewId)
                     } catch (var4: Resources.NotFoundException) {
-                        idDescription = String.format("%s (resource name not found)",
+                        idDescription = String.format("%s (resource id not found)",
                                 *arrayOf<Any>(Integer.valueOf(recyclerViewId)))
                     }
 

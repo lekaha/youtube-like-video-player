@@ -14,14 +14,28 @@ open class SimpletubeMapper : Mapper<SimpletubeEntity, Simpletube> {
      * Map a [SimpletubeEntity] instance to a [Simpletube] instance
      */
     override fun mapFromEntity(type: SimpletubeEntity): Simpletube {
-        return Simpletube(type.name, type.title, type.avatar)
+        return Simpletube(
+            type.name,
+            type.title,
+            type.thumbnailUrl,
+            type.description,
+            type.videoUrl,
+            type.videoDuration
+        )
     }
 
     /**
      * Map a [Simpletube] instance to a [SimpletubeEntity] instance
      */
     override fun mapToEntity(type: Simpletube): SimpletubeEntity {
-        return SimpletubeEntity(type.name, type.title, type.avatar)
+        return SimpletubeEntity(
+            type.name,
+            type.title,
+            type.thumbnailUrl,
+            type.description,
+            type.videoUrl,
+            type.videoDuration
+        )
     }
 
 

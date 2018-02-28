@@ -39,6 +39,15 @@ class Navigator constructor(var activity: BaseActivity) {
         }
     }
 
+    fun <T: BaseFragment> pressedBackKey(fragmentId: Int, block: (T) -> Boolean): Boolean {
+        val fragment = findFragmentById(fragmentId) as T
+        if (isFragmentAvailable(fragment)) {
+            return block(fragment)
+        }
+
+        return false
+    }
+
     private fun findFragmentById(fragmentId: Int) =
         activity.manager {
             findFragmentById(fragmentId)

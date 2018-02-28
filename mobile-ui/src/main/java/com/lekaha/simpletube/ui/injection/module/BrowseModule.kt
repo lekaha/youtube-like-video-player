@@ -1,7 +1,9 @@
 package com.lekaha.simpletube.ui.injection.module
 
 import com.lekaha.simpletube.ui.browse.BrowseAdapter
+import com.lekaha.simpletube.ui.browse.BrowseDetailViewHolder
 import com.lekaha.simpletube.ui.browse.BrowseViewHolder
+import com.lekaha.simpletube.ui.model.SimpletubeSectionViewModel.Companion.DISPLAY_TYPE_BROWSE_DETAIL
 import com.lekaha.simpletube.ui.model.SimpletubeViewModel.Companion.DISPLAY_TYPE_BROWSE
 import com.lekaha.simpletube.ui.view.recycler.ItemComparator
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderBinder
@@ -25,6 +27,18 @@ abstract class BrowseModule {
     @IntoMap
     @IntKey(DISPLAY_TYPE_BROWSE)
     abstract fun provideBrowseViewHolderBinder(binder: BrowseViewHolder.BrowseViewHolderBinder)
+            : ViewHolderBinder
+
+    @Binds
+    @IntoMap
+    @IntKey(DISPLAY_TYPE_BROWSE_DETAIL)
+    abstract fun provideBrowseDetailViewHolderFactory(factory: BrowseDetailViewHolder.BrowseDetailViewHolderFactory)
+            : ViewHolderFactory
+
+    @Binds
+    @IntoMap
+    @IntKey(DISPLAY_TYPE_BROWSE_DETAIL)
+    abstract fun provideBrowseDetailViewHolderBinder(binder: BrowseDetailViewHolder.BrowseDetailViewHolderBinder)
             : ViewHolderBinder
 
     @Module

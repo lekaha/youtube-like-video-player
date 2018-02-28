@@ -41,7 +41,10 @@ class SimpletubeEntityMapperTest {
     ) {
         assertEquals(simpletubeEntity.name, cachedSimpletube.name)
         assertEquals(simpletubeEntity.title, cachedSimpletube.title)
-        assertEquals(simpletubeEntity.avatar, cachedSimpletube.avatar)
+        assertEquals(simpletubeEntity.thumbnailUrl, cachedSimpletube.thumbnailUrl)
+        assertEquals(simpletubeEntity.description, cachedSimpletube.description)
+        assertEquals(simpletubeEntity.videoUrl, cachedSimpletube.videoUrl)
+        assertEquals(simpletubeEntity.videoDuration, cachedSimpletube.videoDuration)
     }
 
 }

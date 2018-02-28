@@ -1,9 +1,9 @@
 package com.lekaha.simpletube.domain.repository
 
+import com.lekaha.simpletube.domain.model.Simpletube
+import com.lekaha.simpletube.domain.model.SimpletubeSections
 import io.reactivex.Completable
 import io.reactivex.Single
-import com.lekaha.simpletube.domain.model.Simpletube
-import com.lekaha.simpletube.domain.model.SimpletubeSection
 
 /**
  * Interface defining methods for how the data layer can pass data to and from the Domain layer.
@@ -18,5 +18,7 @@ interface SimpletubeRepository {
 
     fun getSimpletubes(): Single<List<Simpletube>>
 
-    fun getSimpletubeSections(): Single<List<SimpletubeSection>>
+    fun getSimpletube(title: String?): Single<Simpletube>
+
+    fun getSimpletubeSections(simpletube: Simpletube): Single<SimpletubeSections>
 }

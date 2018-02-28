@@ -17,7 +17,10 @@ class SimpletubeMapper : ModelDbMapper<CachedSimpletube> {
         val values = ContentValues()
         values.put(Db.SimpletubeTable.NAME, model.name)
         values.put(Db.SimpletubeTable.TITLE, model.title)
-        values.put(Db.SimpletubeTable.AVATAR, model.avatar)
+        values.put(Db.SimpletubeTable.THUMBNAIL, model.thumbnailUrl)
+        values.put(Db.SimpletubeTable.DESCRIPTION, model.description)
+        values.put(Db.SimpletubeTable.VIDEO_URL, model.videoUrl)
+        values.put(Db.SimpletubeTable.VIDEO_DURATION, model.videoDuration)
         return values
     }
 
@@ -27,8 +30,11 @@ class SimpletubeMapper : ModelDbMapper<CachedSimpletube> {
     override fun parseCursor(cursor: Cursor): CachedSimpletube {
         val name = cursor.getString(cursor.getColumnIndexOrThrow(Db.SimpletubeTable.NAME))
         val title = cursor.getString(cursor.getColumnIndexOrThrow(Db.SimpletubeTable.TITLE))
-        val avatar = cursor.getString(cursor.getColumnIndexOrThrow(Db.SimpletubeTable.AVATAR))
-        return CachedSimpletube(name, title, avatar)
+        val thumbnail = cursor.getString(cursor.getColumnIndexOrThrow(Db.SimpletubeTable.THUMBNAIL))
+        val description = cursor.getString(cursor.getColumnIndexOrThrow(Db.SimpletubeTable.DESCRIPTION))
+        val videoUrl = cursor.getString(cursor.getColumnIndexOrThrow(Db.SimpletubeTable.VIDEO_URL))
+        val videoDuration = cursor.getLong(cursor.getColumnIndexOrThrow(Db.SimpletubeTable.VIDEO_DURATION))
+        return CachedSimpletube(name, title, thumbnail, description, videoUrl, videoDuration)
     }
 
 }

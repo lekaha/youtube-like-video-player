@@ -13,7 +13,22 @@ open class SimpletubeEntityMapper : EntityMapper<SimpletubeModel, SimpletubeEnti
      * Map an instance of a [SimpletubeModel] to a [SimpletubeEntity] model
      */
     override fun mapToData(type: SimpletubeModel) =
-        SimpletubeEntity(type.presenterName, type.title, type.thumbnailUrl)
+        SimpletubeEntity(
+            type.presenterName,
+            type.title,
+            type.thumbnailUrl,
+            type.description,
+            type.videoUrl,
+            type.videoDuration
+        )
 
-    override fun mapFromData(type: SimpletubeEntity) = TODO()
+    override fun mapFromData(type: SimpletubeEntity) =
+            SimpletubeModel(
+                type.name,
+                type.title,
+                type.thumbnailUrl,
+                type.description,
+                type.videoUrl,
+                type.videoDuration
+            )
 }
