@@ -37,6 +37,7 @@ ext {
     autoValueGson = '0.7.0'
     autoValueAnnotation = autoValue
     ktxVersion = '0.1'
+    exoPlayerVersion = '2.7.0'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -210,6 +211,9 @@ ext {
 
             // KTX
             ktx:                "androidx.core:core-ktx:${ktxVersion}",
+
+            // EXOPlayer
+            exoplayer:          "com.google.android.exoplayer:exoplayer:${exoPlayerVersion}"
     ]
 
     mobileUiTestDependencies = [

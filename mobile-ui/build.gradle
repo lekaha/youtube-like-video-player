@@ -151,6 +151,8 @@ dependencies {
     // KTX
     implementation mobileUiDependencies.ktx
 
+    implementation mobileUiDependencies.exoplayer
+
     // Instrumentation test dependencies
     androidTestImplementation mobileUiTestDependencies.junit
     androidTestImplementation mobileUiTestDependencies.mockito
