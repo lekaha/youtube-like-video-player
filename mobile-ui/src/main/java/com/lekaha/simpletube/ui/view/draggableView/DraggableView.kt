@@ -732,7 +732,7 @@ class DraggableView : RelativeLayout {
      */
     private fun smoothSlideTo(slideOffset: Float): Boolean {
         val topBound = paddingTop
-        val x = (slideOffset * (width - transformer!!.getMinWidthPlusMarginRight())) as Int
+        val x = (slideOffset * (width - transformer!!.getMinWidthPlusMarginRight())).toInt()
         val y = (topBound + slideOffset * verticalDragRange).toInt()
         if (viewDragHelper!!.smoothSlideViewTo(dragView!!, x, y)) {
             ViewCompat.postInvalidateOnAnimation(this)

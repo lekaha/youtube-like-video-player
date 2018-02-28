@@ -59,7 +59,7 @@ abstract class Transformer(protected val view: View, protected val parentView: V
     var originalWidth: Int = 0
         get() {
             if (field == 0) {
-                field = view.measuredHeight
+                field = view.measuredWidth
             }
             return field
         }

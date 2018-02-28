@@ -13,4 +13,8 @@
     <dimen name="browse_thumbnail_width">120dp</dimen>
     <dimen name="browse_thumbnail_height">80dp</dimen>
 
+    <dimen name="x_draggable_scale_factor" format="float">2</dimen>
+    <dimen name="y_draggable_scale_factor" format="float">2</dimen>
+    <dimen name="margin_draggable_view">10dp</dimen>
+
 </resources>

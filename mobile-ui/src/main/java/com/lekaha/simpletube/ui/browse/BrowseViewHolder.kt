@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lekaha.simpletube.ui.R
+import com.lekaha.simpletube.ui.ext.v
 import com.lekaha.simpletube.ui.model.SimpletubeViewModel
 import com.lekaha.simpletube.ui.view.recycler.DisplayableItem
 import com.lekaha.simpletube.ui.view.recycler.ViewHolderBinder
@@ -29,6 +30,8 @@ class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             .load(simpletube.avatar)
             .apply(RequestOptions().placeholder(R.drawable.empty_image_holder))
             .into(avatarImage)
+
+        itemView.setOnClickListener { simpletube.click() }
     }
 
 
@@ -49,8 +52,8 @@ class BrowseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             viewHolder: RecyclerView.ViewHolder,
             item: DisplayableItem<*>
         ) {
-            var browseViewHolder = BrowseViewHolder::class.java.cast(viewHolder)
-            var simpletubeViewModel = SimpletubeViewModel::class.java.cast(item.model())
+            val browseViewHolder = BrowseViewHolder::class.java.cast(viewHolder)
+            val simpletubeViewModel = SimpletubeViewModel::class.java.cast(item.model())
             browseViewHolder.bind(simpletubeViewModel)
         }
 

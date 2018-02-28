@@ -17,6 +17,7 @@ package com.lekaha.simpletube.ui.view.draggableView
 
 import android.support.v4.widget.ViewDragHelper
 import android.view.View
+import androidx.view.get
 
 /**
  * ViewDragHelper.Callback implementation used to work with DraggableView to perform the scale
@@ -25,11 +26,11 @@ import android.view.View
  * @author Pedro Vicente Gómez Sánchez.
  */
 internal class DraggableViewCallback
-    /**
-     * Main constructor.
-     *
-     * @param draggableView instance used to apply some animations or visual effects.
-     */
+/**
+ * Main constructor.
+ *
+ * @param draggableView instance used to apply some animations or visual effects.
+ */
     (private val draggableView: DraggableView, private val draggedView: View) :
     ViewDragHelper.Callback() {
 
@@ -124,6 +125,10 @@ internal class DraggableViewCallback
         }
         return newTop
     }
+
+    override fun getOrderedChildIndex(index: Int): Int =
+        if (tryCaptureView(draggableView[index], index)) index
+        else draggableView.childCount - index - 1
 
     /**
      * Maximize or minimize the DraggableView using the draggableView position and the y axis

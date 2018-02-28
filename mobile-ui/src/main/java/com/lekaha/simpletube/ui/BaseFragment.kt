@@ -8,15 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 
-abstract class BaseFragment: DaggerFragment() {
+abstract class BaseFragment : DaggerFragment() {
 
     @LayoutRes
     protected abstract fun getLayoutId(): Int
 
     @CallSuper
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(getLayoutId(), container, false)
     }
+
+    open fun showUp() {}
 }

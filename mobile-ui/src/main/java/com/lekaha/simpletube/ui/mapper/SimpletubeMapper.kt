@@ -21,9 +21,14 @@ open class SimpletubeMapper : Mapper<SimpletubeViewModel, SimpletubeView> {
     }
 
     @Throws(Exception::class)
-    fun mapToViewModels(views: List<SimpletubeView>): List<DisplayableItem<*>> {
+    fun mapToViewModels(views: List<SimpletubeView>, callback: (SimpletubeViewModel) -> Unit): List<DisplayableItem<*>> {
         return Observable.fromIterable(views)
-            .map { mapToViewModel(it) }
+            .map {
+                val vm = mapToViewModel(it)
+                vm.onClickListener = callback
+
+                vm
+            }
             .map { wrapInDisplayableItem(it) }
             .toList()
             .blockingGet()

@@ -1,8 +1,8 @@
 package com.lekaha.simpletube.ui.injection.module
 
 import android.content.Context
-import com.lekaha.simpletube.cache.SimpletubeCacheImpl
 import com.lekaha.simpletube.cache.PreferencesHelper
+import com.lekaha.simpletube.cache.SimpletubeCacheImpl
 import com.lekaha.simpletube.cache.db.DbOpenHelper
 import com.lekaha.simpletube.cache.mapper.SimpletubeEntityMapper
 import com.lekaha.simpletube.data.SimpletubeDataRepository
@@ -13,11 +13,15 @@ import com.lekaha.simpletube.data.source.SimpletubeDataStoreFactory
 import com.lekaha.simpletube.data.source.SimpletubeRemoteDataStore
 import com.lekaha.simpletube.domain.executor.PostExecutionThread
 import com.lekaha.simpletube.domain.executor.ThreadExecutor
+import com.lekaha.simpletube.domain.interactor.browse.GetSimpletubeSections
 import com.lekaha.simpletube.domain.interactor.browse.GetSimpletubes
 import com.lekaha.simpletube.domain.repository.SimpletubeRepository
+import com.lekaha.simpletube.presentation.browse.BrowseDetailSimpletubesContract
+import com.lekaha.simpletube.presentation.browse.BrowseDetailSimpletubesPresenter
 import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesContract
 import com.lekaha.simpletube.presentation.browse.BrowseSimpletubesPresenter
 import com.lekaha.simpletube.presentation.mapper.SimpletubeMapper
+import com.lekaha.simpletube.presentation.mapper.SimpletubeSectionMapper
 import com.lekaha.simpletube.remote.SimpletubeRemoteImpl
 import com.lekaha.simpletube.remote.SimpletubeService
 import com.lekaha.simpletube.ui.browse.BrowseViewHolder
@@ -41,20 +45,33 @@ open class BrowseActivityModule {
     ) = GetSimpletubes(simpletubeRepository, threadExecutor, postExecutionThread)
 
     @Provides
+    internal fun provideGetSimletubeSections(
+        simpletubeRepository: SimpletubeRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ) = GetSimpletubeSections(simpletubeRepository, threadExecutor, postExecutionThread)
+
+    @Provides
     internal fun provideSimpletubeEntityMapper() = SimpletubeEntityMapper()
 
     @Provides
-    internal fun provideSimpletubeMapper() = com.lekaha.simpletube.presentation.mapper.SimpletubeMapper()
+    internal fun provideSimpletubeMapper() =
+        com.lekaha.simpletube.presentation.mapper.SimpletubeMapper()
 
     @Provides
-    internal fun provideDbSimpletubeMapper() = com.lekaha.simpletube.cache.db.mapper.SimpletubeMapper()
+    internal fun provideSimpletubeSectionMapper() = SimpletubeSectionMapper()
+
+    @Provides
+    internal fun provideDbSimpletubeMapper() =
+        com.lekaha.simpletube.cache.db.mapper.SimpletubeMapper()
 
     @Provides
     internal fun provideRemoteSimpletubeMapper() =
         com.lekaha.simpletube.remote.mapper.SimpletubeEntityMapper()
 
     @Provides
-    internal fun provideDataSimpletubeMapper() = com.lekaha.simpletube.data.mapper.SimpletubeMapper()
+    internal fun provideDataSimpletubeMapper() =
+        com.lekaha.simpletube.data.mapper.SimpletubeMapper()
 
     @Provides
     internal fun provideUiSimpletubeMapper() = com.lekaha.simpletube.ui.mapper.SimpletubeMapper()
@@ -106,8 +123,18 @@ open class BrowseActivityModule {
     internal fun provideBrowseViewHolderBinder() = BrowseViewHolder.BrowseViewHolderBinder()
 
     @Provides
-    internal fun provideBrowsePresenter(getSimpletubes: GetSimpletubes, mapper: SimpletubeMapper)
-            : BrowseSimpletubesContract.Presenter = BrowseSimpletubesPresenter(getSimpletubes, mapper)
+    internal fun provideBrowsePresenter(
+        getSimpletubes: GetSimpletubes,
+        mapper: SimpletubeMapper
+    ): BrowseSimpletubesContract.Presenter =
+        BrowseSimpletubesPresenter(getSimpletubes, mapper)
+
+    @Provides
+    internal fun provideBrowseDetailPresenter(
+        getSimpletubeSections: GetSimpletubeSections,
+        mapper: SimpletubeSectionMapper
+    ): BrowseDetailSimpletubesContract.Presenter =
+        BrowseDetailSimpletubesPresenter(getSimpletubeSections, mapper)
 
     @Provides
     internal fun provideBrowseViewModelFactory(presenter: BrowseSimpletubesContract.Presenter) =

@@ -13,6 +13,10 @@ class BrowseViewModelFactory(val presenter: BrowseSimpletubesContract.Presenter)
             return BrowseViewModel(presenter) as T
         }
 
+        if (modelClass.isAssignableFrom(BrowseDetailViewModel::class.java)) {
+            return BrowseDetailViewModel(presenter) as T
+        }
+
         throw IllegalArgumentException("Illegal ViewModel class")
     }
 }

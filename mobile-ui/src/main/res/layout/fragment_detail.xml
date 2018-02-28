@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ProgressBar
+            android:id="@+id/detail_loading"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+    <com.lekaha.simpletube.ui.view.draggableView.DraggableView
+            xmlns:view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/draggable_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            view:top_view_id="@+id/cover"
+            view:bottom_view_id="@+id/chapters"
+            view:top_view_x_scale_factor="@dimen/x_draggable_scale_factor"
+            view:top_view_y_scale_factor="@dimen/y_draggable_scale_factor"
+            view:top_view_margin_right="@dimen/margin_draggable_view"
+            view:top_view_margin_bottom="@dimen/margin_draggable_view"
+            >
+        <ImageView
+                android:id="@+id/cover"
+                android:layout_width="fill_parent"
+                android:layout_height="185dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/chuck_colorAccent"/>
+
+        <ListView
+                android:id="@+id/chapters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/cover"
+                android:background="@color/chuck_colorPrimary"/>
+
+    </com.lekaha.simpletube.ui.view.draggableView.DraggableView>
+
+</FrameLayout>

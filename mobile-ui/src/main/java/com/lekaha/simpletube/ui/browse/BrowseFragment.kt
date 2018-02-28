@@ -8,18 +8,25 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.lekaha.simpletube.presentation.model.SimpletubeView
 import com.lekaha.simpletube.ui.BaseInjectingFragment
+import com.lekaha.simpletube.ui.Navigator
 import com.lekaha.simpletube.ui.R
 import com.lekaha.simpletube.ui.mapper.SimpletubeMapper
 import com.lekaha.simpletube.ui.model.BrowseViewModel
 import com.lekaha.simpletube.ui.model.BrowseViewModelFactory
-import kotlinx.android.synthetic.main.fragment_browse.*
+import kotlinx.android.synthetic.main.fragment_browse.progress
+import kotlinx.android.synthetic.main.fragment_browse.recycler_browse
 import javax.inject.Inject
 
-class BrowseFragment: BaseInjectingFragment() {
+class BrowseFragment : BaseInjectingFragment() {
 
-    @Inject lateinit var browseAdapter: BrowseAdapter
-    @Inject lateinit var mapper: SimpletubeMapper
-    @Inject lateinit var browseViewModelFactory: BrowseViewModelFactory
+    @Inject
+    lateinit var browseAdapter: BrowseAdapter
+    @Inject
+    lateinit var mapper: SimpletubeMapper
+    @Inject
+    lateinit var browseViewModelFactory: BrowseViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private var viewModel: BrowseViewModel? = null
 
@@ -43,15 +50,19 @@ class BrowseFragment: BaseInjectingFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_browse
 
     private fun showProgress() {
-        progress.visibility = View.GONE
-    }
-
-    private fun hideProgress() {
         progress.visibility = View.VISIBLE
     }
 
+    private fun hideProgress() {
+        progress.visibility = View.GONE
+    }
+
     private fun showSimpletubes(simpletubes: List<SimpletubeView>) {
-        browseAdapter.update(mapper.mapToViewModels(simpletubes))
+        browseAdapter.update(mapper.mapToViewModels(simpletubes) {
+            val b = Bundle()
+            b.putParcelable(DetailFragment.ARGS_MODEL, it)
+            navigator.showUp<DetailFragment>(R.id.detail, b)
+        })
         browseAdapter.notifyDataSetChanged()
         recycler_browse.visibility = View.VISIBLE
     }
@@ -78,7 +89,7 @@ class BrowseFragment: BaseInjectingFragment() {
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this, browseViewModelFactory)
-                .get(BrowseViewModel::class.java)
+            .get(BrowseViewModel::class.java)
 
         viewModel?.isProgressing()!!.observe(this, Observer { progress ->
             if (progress!!) showProgress() else hideProgress()
@@ -91,15 +102,12 @@ class BrowseFragment: BaseInjectingFragment() {
         viewModel?.fetchedData()!!.observe(this, Observer { data ->
             hideErrorState()
 
-            data?.let {
-                if (data.isNotEmpty()) {
+            data?.takeIf {
+                it.isNotEmpty()
+            }?.apply {
                     hideEmptyState()
-                    showSimpletubes(data)
-                } else {
-                    showEmptyState()
-                    hideSimpletubes()
-                }
-            } ?: run {
+                    showSimpletubes(this)
+                } ?: run {
                 showEmptyState()
                 hideSimpletubes()
             }

@@ -1,11 +1,11 @@
 package com.lekaha.simpletube.domain.interactor
 
+import com.lekaha.simpletube.domain.executor.PostExecutionThread
+import com.lekaha.simpletube.domain.executor.ThreadExecutor
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
-import com.lekaha.simpletube.domain.executor.PostExecutionThread
-import com.lekaha.simpletube.domain.executor.ThreadExecutor
 
 /**
  * Abstract class for a UseCase that returns an instance of a [Completable].
