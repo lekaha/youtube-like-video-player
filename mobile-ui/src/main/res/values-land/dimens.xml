@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="x_draggable_scale_factor" format="float">1</dimen>
-    <dimen name="y_draggable_scale_factor" format="float">1</dimen>
+    <dimen name="x_draggable_scale_factor" format="float">1.5</dimen>
+    <dimen name="y_draggable_scale_factor" format="float">3</dimen>
     <dimen name="video_height">150dp</dimen>
 
 </resources>

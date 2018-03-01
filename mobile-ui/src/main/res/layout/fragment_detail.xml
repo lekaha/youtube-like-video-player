@@ -54,13 +54,13 @@
                     android:gravity="center"
                     android:ellipsize="end"
                     android:textSize="@dimen/section_layout_title_size"
-                    android:background="@color/chuck_colorPrimaryDark"/>
+                    android:background="@color/sections_title"/>
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/chapters"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/chuck_colorPrimary"/>
+                    android:background="@color/sections_list"/>
         </LinearLayout>
         
 

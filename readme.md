@@ -1,6 +1,8 @@
 # Youtube-like Video Player
 
-Play video from a list that a JSON format file fetched through the internet
+Play video from a list that a JSON format file fetched through the internet and 
+while playing the video you can drag the video view to smaller one then you can look the list. 
+If you want to stop the video you can just swipe the small video view to stop it.
 
 ## Languages, libraries and tools used
 
@@ -28,3 +30,24 @@ Play video from a list that a JSON format file fetched through the internet
 ## Initial from
 
 - https://github.com/lekaha/android-clean-architecture-component-boilerplate
+
+## Demo
+
+![demo](art/demo.gif)
+
+## Captures
+
+### List
+![list](art/list.png)
+![list land](art/list_land.png)
+
+### Video
+![video](art/detail.png)
+![video land](art/detail_land.png)
+
+### Full Screen Video
+![fullscreen](art/fullscreen.png)
+
+### Small Video
+![small video](art/mini.png)
+![small video land](art/mini_land.png)

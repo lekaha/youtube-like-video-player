@@ -13,7 +13,7 @@ android {
     defaultConfig {
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
-        multiDexEnabled = true
+        multiDexEnabled true
         testInstrumentationRunner "com.lekaha.simpletube.ui.test.TestRunner"
 
         def properties = new Properties()
@@ -30,6 +30,8 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false
+            useProguard false
             testCoverageEnabled true
         }
     }
@@ -86,6 +88,9 @@ configurations.all {
 }
 
 dependencies {
+    // for supporting Android 15+
+    compile 'com.android.support:multidex:1.0.3'
+
     def mobileUiDependencies = rootProject.ext.mobileUiDependencies
     def mobileUiTestDependencies = rootProject.ext.mobileUiTestDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
@@ -121,19 +126,15 @@ dependencies {
 
     testImplementation mobileUiTestDependencies.kotlinJUnit
 
-    implementation mobileUiDependencies.archLifecycleRuntime
-    implementation mobileUiDependencies.archLifecycleExtensions
+    compile mobileUiDependencies.archLifecycleRuntime
+    compile mobileUiDependencies.archLifecycleExtensions
+    compile mobileUiDependencies.archLifecycleReactiveStreams
     kapt mobileUiDependencies.archLifecycleCompiler
+    kaptTest mobileUiDependencies.archLifecycleCompiler
 
     kapt mobileUiDependencies.daggerCompiler
     kapt mobileUiDependencies.daggerProcessor
     compileOnly mobileUiDependencies.glassfishAnnotation
-
-    api mobileUiDependencies.archLifecycleRuntime
-    api mobileUiDependencies.archLifecycleExtensions
-    api mobileUiDependencies.archLifecycleReactiveStreams
-    kapt mobileUiDependencies.archLifecycleCompiler
-    kaptTest mobileUiDependencies.archLifecycleCompiler
 
     // Auto-Value
     kapt developmentDependencies.autoValue

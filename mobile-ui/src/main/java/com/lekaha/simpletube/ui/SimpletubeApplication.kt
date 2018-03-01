@@ -1,5 +1,7 @@
 package com.lekaha.simpletube.ui
 
+import android.content.Context
+import android.support.multidex.MultiDex
 import com.lekaha.simpletube.ui.injection.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -19,6 +21,11 @@ class SimpletubeApplication : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
         setupTimber()
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
     private fun setupTimber() {

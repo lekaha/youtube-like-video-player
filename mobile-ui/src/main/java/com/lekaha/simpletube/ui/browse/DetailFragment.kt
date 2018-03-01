@@ -12,6 +12,8 @@ import com.lekaha.simpletube.ui.BaseInjectingFragment
 import com.lekaha.simpletube.ui.Navigator
 import com.lekaha.simpletube.ui.PlayerVideoHandler
 import com.lekaha.simpletube.ui.R
+import com.lekaha.simpletube.ui.ext.ifFalse
+import com.lekaha.simpletube.ui.ext.ifTrue
 import com.lekaha.simpletube.ui.mapper.SimpletubeSectionMapper
 import com.lekaha.simpletube.ui.model.BrowseDetailViewModel
 import com.lekaha.simpletube.ui.model.BrowseDetailViewModelFactory
@@ -47,6 +49,24 @@ class DetailFragment : BaseInjectingFragment() {
         initViewModel()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("MAX_VIDEO", draggable_view.isMaximized)
+        outState.putBoolean("CLOSED", draggable_view.isClosed)
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val isMaximum = savedInstanceState?.getBoolean("MAX_VIDEO", false)
+        val isClosed = savedInstanceState?.getBoolean("CLOSED", true)
+
+        isClosed?.ifFalse {
+            isMaximum?.ifTrue { showPlayerView(true) }
+            isMaximum?.ifFalse { showPlayerView(false) }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         player.goToBackground()
@@ -77,7 +97,7 @@ class DetailFragment : BaseInjectingFragment() {
             it is SimpletubeViewModel
         }?.let {
                 viewModel?.load((it as SimpletubeViewModel).title)
-                showPlayerView()
+                showPlayerView(true)
             } ?: run {
             throw IllegalStateException("Missing required view model")
         }
@@ -116,9 +136,11 @@ class DetailFragment : BaseInjectingFragment() {
         detail_loading.visibility = View.GONE
     }
 
-    private fun showPlayerView() {
+    private fun showPlayerView(max: Boolean) {
         draggable_view.visibility = View.VISIBLE
-        draggable_view.maximize()
+
+        if (max) draggable_view.maximize()
+        else draggable_view.minimize()
     }
 
     private fun hidePlayerView() {
@@ -180,15 +202,11 @@ class DetailFragment : BaseInjectingFragment() {
             }
 
             override fun onClosedToLeft() {
-//                if (player.isPlaying()) {
-//                    player.releaseVideoPlayer()
-//                }
+                // Empty
             }
 
             override fun onClosedToRight() {
-//                if (player.isPlaying()) {
-//                    player.releaseVideoPlayer()
-//                }
+                // Empty
             }
         })
     }
@@ -212,7 +230,9 @@ class DetailFragment : BaseInjectingFragment() {
     }
 
     fun showMini() {
-        draggable_view.minimize();
+        draggable_view.isClosed.ifFalse {
+            draggable_view.minimize()
+        }
     }
 
     companion object {
