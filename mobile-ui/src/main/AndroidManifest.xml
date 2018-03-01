@@ -7,13 +7,17 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.lekaha.simpletube.ui.browse.BrowseActivity">
+        <activity android:name=".browse.BrowseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".browse.VideoFullscreenActivity"
+                  android:configChanges="keyboardHidden|orientation|screenSize"
+                  android:screenOrientation="landscape"/>
 
     </application>
 

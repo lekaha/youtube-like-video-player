@@ -8,6 +8,7 @@ import com.lekaha.simpletube.cache.db.DbOpenHelper
 import com.lekaha.simpletube.data.executor.JobExecutor
 import com.lekaha.simpletube.domain.executor.PostExecutionThread
 import com.lekaha.simpletube.domain.executor.ThreadExecutor
+import com.lekaha.simpletube.ui.PlayerVideoHandler
 import com.lekaha.simpletube.ui.UiThread
 import com.lekaha.simpletube.ui.injection.qualifier.ApplicationContext
 import com.lekaha.simpletube.ui.injection.scopes.PerApplication
@@ -65,4 +66,9 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread = uiThread
+
+    @Provides
+    @PerApplication
+    internal fun providePlayerHandler(@ApplicationContext context: Context) =
+        PlayerVideoHandler(context)
 }

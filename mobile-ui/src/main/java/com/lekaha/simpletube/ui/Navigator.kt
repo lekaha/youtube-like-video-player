@@ -1,10 +1,12 @@
 package com.lekaha.simpletube.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.lekaha.simpletube.ui.ext.manager
+import com.lekaha.simpletube.ui.ext.start
 import com.lekaha.simpletube.ui.ext.transact
 
 /**
@@ -16,6 +18,16 @@ class Navigator constructor(var activity: BaseActivity) {
     /**
      * navigate to a Fragment with [AppCompatActivity] and the transactions
      * in [FragmentTransaction]
+     */
+    fun navigateTo(cls: Class<*>, block: (Intent.() -> Unit)? = null) {
+        activity.start<BaseActivity> {
+            setClass(activity, cls)
+            block?.run { block() }
+        }
+    }
+
+    /**
+     * navigate to Activity with [AppCompatActivity]
      */
     fun navigateTo(transactions: FragmentTransaction.() -> Unit) {
         activity.transact{

@@ -17,7 +17,7 @@
             android:id="@+id/draggable_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            view:top_view_id="@+id/player_view"
+            view:top_view_id="@+id/player_view_layout"
             view:bottom_view_id="@+id/chapters_layout"
             view:top_view_x_scale_factor="@dimen/x_draggable_scale_factor"
             view:top_view_y_scale_factor="@dimen/y_draggable_scale_factor"
@@ -25,12 +25,20 @@
             view:top_view_margin_bottom="@dimen/margin_draggable_view"
             >
 
-        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-                android:id="@+id/player_view"
-                android:focusable="true"
+        <FrameLayout
+                android:id="@+id/player_view_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/video_height"
-                android:background="@color/chuck_colorAccent"/>
+                android:background="@android:color/black">
+
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                    android:id="@+id/player_view"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    view:resize_mode="fixed_height"/>
+
+        </FrameLayout>
 
         <LinearLayout
                 android:id="@+id/chapters_layout"

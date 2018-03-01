@@ -7,6 +7,13 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 
+inline fun <reified T : Any> AppCompatActivity.start(
+    noinline init: Intent.() -> Unit = {}) {
+
+    val intent = newIntent<T>(this)
+    intent.init()
+    startActivity(intent)
+}
 
 inline fun <reified T : Any> AppCompatActivity.startForResult(
         requestCode: Int = -1,
