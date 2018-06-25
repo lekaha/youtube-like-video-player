@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ProgressBar
             android:id="@+id/detail_loading"
@@ -64,13 +66,37 @@
                     android:background="@color/sections_list"/>
         </LinearLayout>
         
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/info_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/player_view_layout"
-            android:visibility="gone"
-            android:background="@color/info" />
+            android:layout_height="@dimen/video_height"
+            android:background="@color/info">
+
+            <TextView
+                android:id="@+id/info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:ellipsize="end"
+                tools:text="test_title"
+                android:textSize="@dimen/info_layout_title_size" />
+
+            <TextView
+                android:id="@+id/info_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/info_title"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                tools:text="test_desc"
+                android:textSize="@dimen/info_layout_desc_size" />
+
+        </RelativeLayout>
 
     </com.lekaha.simpletube.ui.view.draggableView.DraggableView>
 

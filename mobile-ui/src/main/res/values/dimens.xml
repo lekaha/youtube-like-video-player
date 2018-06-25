@@ -19,5 +19,7 @@
     <dimen name="video_height">190dp</dimen>
     <dimen name="section_layout_title_height">36dp</dimen>
     <dimen name="section_layout_title_size">16sp</dimen>
+    <dimen name="info_layout_title_size">24sp</dimen>
+    <dimen name="info_layout_desc_size">20sp</dimen>
 
 </resources>

@@ -21,11 +21,7 @@ import com.lekaha.simpletube.ui.model.SimpletubeSectionViewModel
 import com.lekaha.simpletube.ui.model.SimpletubeViewModel
 import com.lekaha.simpletube.ui.view.draggableView.DraggableListener
 import kotlinx.android.synthetic.main.exo_playback_control_view.exo_fullscreen_button
-import kotlinx.android.synthetic.main.fragment_detail.chapters
-import kotlinx.android.synthetic.main.fragment_detail.detail_loading
-import kotlinx.android.synthetic.main.fragment_detail.draggable_view
-import kotlinx.android.synthetic.main.fragment_detail.player_view
-import kotlinx.android.synthetic.main.fragment_detail.sections_title
+import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
 
@@ -97,6 +93,8 @@ class DetailFragment : BaseInjectingFragment() {
             it is SimpletubeViewModel
         }?.let {
                 viewModel?.load((it as SimpletubeViewModel).title)
+                info_title.text = (it as SimpletubeViewModel).name
+                info_desc.text = (it as SimpletubeViewModel).title
                 showPlayerView(true)
             } ?: run {
             throw IllegalStateException("Missing required view model")

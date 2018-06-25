@@ -26,6 +26,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.RelativeLayout
 import com.lekaha.simpletube.ui.R
+import com.lekaha.simpletube.ui.browse.AsyncScaleXYTransformer
 import com.lekaha.simpletube.ui.ext.v
 import com.lekaha.simpletube.ui.view.ViewHelper
 import com.lekaha.simpletube.ui.view.transformer.Transformer
@@ -211,7 +212,6 @@ class DraggableView : RelativeLayout {
     private val verticalDragOffset: Float
         get() {
             val offset = dragView!!.top / verticalDragRange
-            v("verticalDragOffset:", (dragView!!.top + marginBottom) / verticalDragRange, "verticalDragRange:", verticalDragRange)
             return offset
         }
 
@@ -486,19 +486,22 @@ class DraggableView : RelativeLayout {
      * Override method to configure the dragged view and secondView layout properly.
      */
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        if (isInEditMode)
-            super.onLayout(changed, left, top, right, bottom)
-        else if (isDragViewAtTop) {
-            dragView!!.layout(left, top, right, transformer!!.originalHeight)
-            secondView!!.layout(left, transformer!!.originalHeight, right, bottom)
-            ViewHelper.setY(dragView!!, top.toFloat())
-            ViewHelper.setY(
-                secondView!!,
-                transformer!!.originalHeight.toFloat()
-            )
-            ViewHelper.setX(infoView!!, transformer!!.originalWidth.toFloat())
-        } else {
-            secondView!!.layout(left, transformer!!.originalHeight, right, bottom)
+        when {
+            isInEditMode -> super.onLayout(changed, left, top, right, bottom)
+            isDragViewAtTop -> {
+                dragView!!.layout(left, top, right, transformer!!.originalHeight)
+                secondView!!.layout(left, transformer!!.originalHeight, right, bottom)
+                infoView!!.layout(left, top, right, transformer!!.originalHeight)
+                ViewHelper.setY(dragView!!, top.toFloat())
+                ViewHelper.setY(
+                        secondView!!,
+                        transformer!!.originalHeight.toFloat()
+                )
+            }
+            else -> {
+                secondView!!.layout(left, transformer!!.originalHeight, right, bottom)
+                infoView!!.layout(left, top, right, transformer!!.originalHeight)
+            }
         }
     }
 
@@ -592,6 +595,48 @@ class DraggableView : RelativeLayout {
             secondView!!,
             1 - verticalDragOffset
         )
+    }
+
+    internal fun changeInfoViewPosition() {
+        ViewHelper.setY(infoView!!, dragView!!.top.toFloat())
+        ViewHelper.setPivotY(infoView!!, (dragView!!.height - marginBottom).toFloat())
+        ViewHelper.setScaleY(infoView!!, 1 - verticalDragOffset / scaleFactorY)
+
+        if (verticalDragOffset > AsyncScaleXYTransformer.ASYNC_PARTIAL) {
+            val offset = (verticalDragOffset - AsyncScaleXYTransformer.ASYNC_PARTIAL) / (1 - AsyncScaleXYTransformer.ASYNC_PARTIAL)
+
+            val marginOffset = marginRight / width.toFloat()
+            ViewHelper.setScaleX(infoView!!, 1 - marginOffset - offset / scaleFactorX)
+            ViewHelper.setX(infoView!!, dragView!!.right.toFloat() * (1 - offset / scaleFactorX))
+            ViewHelper.setPivotX(infoView!!, dragView!!.pivotX)
+        }
+    }
+
+    internal fun changeInfoViewPositionOnDraggingAtBottom() {
+        ViewHelper.setY(infoView!!, dragView!!.top.toFloat())
+        ViewHelper.setPivotY(infoView!!, (dragView!!.height - marginBottom).toFloat())
+        ViewHelper.setX(infoView!!, dragView!!.left + dragView!!.width.toFloat() / scaleFactorX)
+        ViewHelper.setPivotX(infoView!!, dragView!!.pivotX)
+    }
+
+    internal fun changeInfoViewAlpha() {
+        if (verticalDragOffset > AsyncScaleXYTransformer.ASYNC_PARTIAL) {
+            val offset = (verticalDragOffset - AsyncScaleXYTransformer.ASYNC_PARTIAL) /
+                    (1 - AsyncScaleXYTransformer.ASYNC_PARTIAL)
+            ViewHelper.setAlpha(infoView!!, offset)
+        } else {
+            ViewHelper.setAlpha(infoView!!, 0f)
+        }
+    }
+
+    internal fun changeInfoViewAlphaOnDraggingAtBottom() {
+        if (enableHorizontalAlphaEffect) {
+            var alpha = 1 - horizontalDragOffset
+            if (alpha == 0f) {
+                alpha = 1f
+            }
+            ViewHelper.setAlpha(infoView!!, alpha)
+        }
     }
 
     /**

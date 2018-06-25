@@ -46,6 +46,8 @@ internal class DraggableViewCallback
     override fun onViewPositionChanged(changedView: View, left: Int, top: Int, dx: Int, dy: Int) {
         if (draggableView.isDragViewAtBottom) {
             draggableView.changeDragViewViewAlpha()
+            draggableView.changeInfoViewPositionOnDraggingAtBottom()
+            draggableView.changeInfoViewAlphaOnDraggingAtBottom()
         } else {
             draggableView.restoreAlpha()
             draggableView.changeDragViewScale()
@@ -53,6 +55,8 @@ internal class DraggableViewCallback
             draggableView.changeSecondViewAlpha()
             draggableView.changeSecondViewPosition()
             draggableView.changeBackgroundAlpha()
+            draggableView.changeInfoViewPosition()
+            draggableView.changeInfoViewAlpha()
         }
     }
 

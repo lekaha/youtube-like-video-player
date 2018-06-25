@@ -1,7 +1,6 @@
 package com.lekaha.simpletube.ui.browse
 
 import android.view.View
-import com.lekaha.simpletube.ui.ext.v
 import com.lekaha.simpletube.ui.view.ViewHelper
 import com.lekaha.simpletube.ui.view.transformer.ScaleTransformer
 
@@ -16,7 +15,6 @@ class AsyncScaleXYTransformer(view: View, parent: View): ScaleTransformer(view, 
         updateScaleX(0f)
         if (verticalDragOffset > ASYNC_PARTIAL) {
             val offset = (verticalDragOffset - ASYNC_PARTIAL) / (1 - ASYNC_PARTIAL)
-            v("horizontal offset:", offset)
             updateScaleX(offset)
         }
     }
