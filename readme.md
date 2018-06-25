@@ -51,3 +51,7 @@ If you want to stop the video you can just swipe the small video view to stop it
 ### Small Video
 ![small video](art/mini.png)
 ![small video land](art/mini_land.png)
+
+## Update (follow up the latest Youtube)
+![update](art/update.png)
+![youtube](art/youtube.png)
