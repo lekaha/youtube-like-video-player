@@ -16,6 +16,7 @@
 package com.lekaha.simpletube.ui.view.transformer
 
 import android.view.View
+import com.lekaha.simpletube.ui.browse.AsyncScaleXYTransformer
 
 /**
  * Factory created to provide Transformer implementations like ResizeTransformer o
@@ -27,7 +28,7 @@ class TransformerFactory {
 
     fun getTransformer(resize: Boolean, view: View, parent: View): Transformer =
         resize.takeIf { resize }?.let { ResizeTransformer(view, parent) } ?: run {
-            ScaleTransformer(
+            AsyncScaleXYTransformer(
                 view,
                 parent
             )

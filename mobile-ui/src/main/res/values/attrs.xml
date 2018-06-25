@@ -14,6 +14,7 @@
     <declare-styleable name="draggable_view">
         <attr format="reference" name="top_view_id"/>
         <attr format="reference" name="bottom_view_id"/>
+        <attr format="reference" name="info_view_id"/>
         <attr format="dimension" name="top_view_height"/>
         <attr format="float" name="top_view_x_scale_factor"/>
         <attr format="float" name="top_view_y_scale_factor"/>

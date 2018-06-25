@@ -108,5 +108,12 @@ abstract class Transformer(protected val view: View, protected val parentView: V
 
     abstract fun updatePosition(verticalDragOffset: Float)
 
-    abstract fun updateScale(verticalDragOffset: Float)
+    open fun updateScale(horizontalDragOffset: Float, verticalDragOffset: Float) {
+        updateScaleX(horizontalDragOffset)
+        updateScaleY(verticalDragOffset)
+    }
+
+    abstract fun updateScaleX(horizontalDragOffset: Float)
+
+    abstract fun updateScaleY(verticalDragOffset: Float)
 }

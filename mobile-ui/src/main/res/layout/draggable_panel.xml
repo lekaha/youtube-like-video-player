@@ -20,4 +20,11 @@
       android:layout_alignParentTop="true"
       android:orientation="vertical"/>
 
+  <FrameLayout
+      android:id="@+id/info_view"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:orientation="vertical"/>
+
 </com.lekaha.simpletube.ui.view.draggableView.DraggableView>

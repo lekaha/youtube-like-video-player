@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             view:top_view_id="@+id/player_view_layout"
             view:bottom_view_id="@+id/chapters_layout"
+            view:info_view_id="@+id/info_layout"
             view:top_view_x_scale_factor="@dimen/x_draggable_scale_factor"
             view:top_view_y_scale_factor="@dimen/y_draggable_scale_factor"
             view:top_view_margin_right="@dimen/margin_draggable_view"
@@ -63,7 +64,13 @@
                     android:background="@color/sections_list"/>
         </LinearLayout>
         
-
+        <FrameLayout
+            android:id="@+id/info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/player_view_layout"
+            android:visibility="gone"
+            android:background="@color/info" />
 
     </com.lekaha.simpletube.ui.view.draggableView.DraggableView>
 

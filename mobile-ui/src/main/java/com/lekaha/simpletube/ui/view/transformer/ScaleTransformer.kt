@@ -16,6 +16,7 @@
 package com.lekaha.simpletube.ui.view.transformer
 
 import android.view.View
+import com.lekaha.simpletube.ui.ext.v
 import com.lekaha.simpletube.ui.view.ViewHelper
 
 /**
@@ -25,15 +26,28 @@ import com.lekaha.simpletube.ui.view.ViewHelper
  *
  * @author Pedro Vicente Gómez Sánchez
  */
-internal class ScaleTransformer(view: View, parent: View) : Transformer(view, parent) {
+open class ScaleTransformer(view: View, parent: View) : Transformer(view, parent) {
+
+    override fun updateScale(horizontalDragOffset: Float, verticalDragOffset: Float) {
+        updateScaleY(verticalDragOffset)
+        updateScaleX(horizontalDragOffset)
+    }
 
     /**
-     * Uses Nineoldandroids to change the scale.
+     * Uses ViewHelper to change the X of scale.
+     *
+     * @param horizontalDragOffset used to calculate the new scale.
+     */
+    override fun updateScaleX(horizontalDragOffset: Float) {
+        ViewHelper.setScaleX(view, 1 - horizontalDragOffset / xScaleFactor)
+    }
+
+    /**
+     * Uses ViewHelper to change the Y of scale.
      *
      * @param verticalDragOffset used to calculate the new scale.
      */
-    override fun updateScale(verticalDragOffset: Float) {
-        ViewHelper.setScaleX(view, 1 - verticalDragOffset / xScaleFactor)
+    override fun updateScaleY(verticalDragOffset: Float) {
         ViewHelper.setScaleY(view, 1 - verticalDragOffset / yScaleFactor)
     }
 

@@ -26,6 +26,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.RelativeLayout
 import com.lekaha.simpletube.ui.R
+import com.lekaha.simpletube.ui.ext.v
 import com.lekaha.simpletube.ui.view.ViewHelper
 import com.lekaha.simpletube.ui.view.transformer.Transformer
 import com.lekaha.simpletube.ui.view.transformer.TransformerFactory
@@ -43,6 +44,7 @@ class DraggableView : RelativeLayout {
 
     private var dragView: View? = null
     private var secondView: View? = null
+    private var infoView: View? = null
 
     private var fragmentManager: FragmentManager? = null
     private var viewDragHelper: ViewDragHelper? = null
@@ -91,6 +93,7 @@ class DraggableView : RelativeLayout {
     private var marginRight: Int = 0
     private var dragViewId: Int = 0
     private var secondViewId: Int = 0
+    private var infoViewId: Int = 0
 
     /**
      * Checks if the top view is minimized.
@@ -206,7 +209,11 @@ class DraggableView : RelativeLayout {
      * @return dragged view top divided by vertical drag range.
      */
     private val verticalDragOffset: Float
-        get() = dragView!!.top / verticalDragRange
+        get() {
+            val offset = dragView!!.top / verticalDragRange
+            v("verticalDragOffset:", (dragView!!.top + marginBottom) / verticalDragRange, "verticalDragRange:", verticalDragRange)
+            return offset
+        }
 
     /**
      * Calculate the vertical drag range between the custom view and dragged view.
@@ -489,6 +496,7 @@ class DraggableView : RelativeLayout {
                 secondView!!,
                 transformer!!.originalHeight.toFloat()
             )
+            ViewHelper.setX(infoView!!, transformer!!.originalWidth.toFloat())
         } else {
             secondView!!.layout(left, transformer!!.originalHeight, right, bottom)
         }
@@ -510,6 +518,7 @@ class DraggableView : RelativeLayout {
     private fun mapGUI() {
         dragView = findViewById(dragViewId)
         secondView = findViewById(secondViewId)
+        infoView = findViewById(infoViewId)
     }
 
     /**
@@ -560,7 +569,7 @@ class DraggableView : RelativeLayout {
      * Modify dragged view scale based on the dragged view vertical position and the scale factor.
      */
     internal fun changeDragViewScale() {
-        transformer!!.updateScale(verticalDragOffset)
+        transformer!!.updateScale(horizontalDragOffset, verticalDragOffset)
     }
 
     /**
@@ -719,6 +728,10 @@ class DraggableView : RelativeLayout {
         this.secondViewId = attributes.getResourceId(
             R.styleable.draggable_view_bottom_view_id,
             R.id.second_view
+        )
+        this.infoViewId = attributes.getResourceId(
+            R.styleable.draggable_view_info_view_id,
+            R.id.info_view
         )
         attributes.recycle()
     }

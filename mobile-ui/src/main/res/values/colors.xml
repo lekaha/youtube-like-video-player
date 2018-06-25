@@ -6,4 +6,5 @@
 
     <color name="sections_title">#FF9800</color>
     <color name="sections_list">#0097A7</color>
+    <color name="info">#00a611</color>
 </resources>

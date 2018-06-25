@@ -32,12 +32,20 @@ internal class ResizeTransformer(view: View, parent: View) : Transformer(view, p
     /**
      * Changes view scale using view's LayoutParam.
      *
+     * @param horizontalDragOffset used to calculate the new size.
+     */
+    override fun updateScaleX(horizontalDragOffset: Float) {
+        layoutParams.width = (originalWidth * (1 - horizontalDragOffset / xScaleFactor)).toInt()
+        view.layoutParams = layoutParams
+    }
+
+    /**
+     * Changes view scale using view's LayoutParam.
+     *
      * @param verticalDragOffset used to calculate the new size.
      */
-    override fun updateScale(verticalDragOffset: Float) {
-        layoutParams.width = (originalWidth * (1 - verticalDragOffset / xScaleFactor)).toInt()
+    override fun updateScaleY(verticalDragOffset: Float) {
         layoutParams.height = (originalHeight * (1 - verticalDragOffset / yScaleFactor)).toInt()
-
         view.layoutParams = layoutParams
     }
 
